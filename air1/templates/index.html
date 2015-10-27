@@ -1,0 +1,272 @@
+<html>
+	<head>
+		<!-- Standard Meta -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<!-- Site Properities -->
+		<title>air 1</title>
+		<link rel="stylesheet" type="text/css" href="{{ static_url("semantic/semantic.min.css") }}">
+		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
+	</head>
+	<body id="home" style="margin-top: 2%">
+		<div class="ui text container">
+			<h1 class="ui header" align="center" id="tracker_name">{{ app_name }}</h1>
+		</div>
+		<div class="ui hidden divider"></div>
+		<div class="ui segment" style="height:25%" id="loader">
+		  <div class="ui active dimmer">
+		    <div class="ui text loader">
+		    	<p>
+		    		<img src="{{ static_url("images/niwa-logo.png") }}" width="200px" />
+		    	</p>
+		    	<p id="loader_message_holder">
+		    		Air application is starting...
+		    	</p>
+		    </div>
+		  </div>
+		  <p></p>
+		</div>
+
+		<div class="ui container" id="main-content">
+			<p>Time: <span id="time"></span></p>
+			<table class="ui celled table">
+				<thead>
+					<tr>
+						<th>Record Number</th>
+						<th>Distance</th>
+						<th>Temperature 1</th>
+						<th>Temperature 2</th>
+						<th>Dust</th>
+						<th>CO</th>
+						<th>CO2</th>
+						<th>CO status</th>
+						<th>Movement</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><p class="record_number"></p></td>
+						<td><p class="distance"></p></td>
+						<td><p class="temperature_1"></p></td>
+						<td><p class="temperature_2"></p></td>
+						<td><p class="dust"></p></td>
+						<td><p class="co"></p></td>
+						<td><p class="co2"></p></td>
+						<td><p class="co_status"></p></td>
+						<td><p class="movement"></p></td>
+					</tr>
+					<tr>
+						<td><p class="record_number"></p></td>
+						<td><p class="distance"></p></td>
+						<td><p class="temperature_1"></p></td>
+						<td style="height: 150px; ">
+							<div style="transform: rotate(-90deg);">
+								<div class="ui progress error">
+								  <div class="bar" style="transition-duration: 300ms; width: 0%;" id="temperature_bar">
+								    <div class="progress" id="temperature_progress">0&deg;C</div>
+								  </div>
+								</div>
+							</div>
+						</td>
+						<td class='center aligned'>
+							<img id='dust_image' src="{{ static_url('images/dust.jpg') }}" width="150px" />
+						</td>
+						<td><p class="co"></p></td>
+						<td><p class="co2"></p></td>
+						<td><p class="co_status"></p></td>
+						<td><p class="movement"></p></td>
+					</tr>
+					<tr>
+						<td><p class="record_number"></p></td>
+						<td><p class="distance"></p></td>
+						<td><p class="temperature_1"></p></td>
+						<td class='center aligned'>
+							<img src="{{ static_url('images/0101-sun-smile-glasses-icon_128.png') }}" id="temperature_image" />
+						</td>
+						<td class='center aligned'>
+							<video id="video" width="160" height="160" autoplay></video>
+						</td>
+						<td><p class="co"></p></td>
+						<td><p class="co2"></p></td>
+						<td><p class="co_status"></p></td>
+						<td><p class="movement"></p></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+<script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
+<script src="{{ static_url("semantic/semantic.min.js") }}"></script>
+<script src="{{ static_url("app.js") }}" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() { // only when the page has loaded and jQuery is ready
+	var isopen = false;
+//	var socket = new WebSocket("ws://192.168.161.29:8080/ws");
+//	var socket = new WebSocket("ws://192.168.174.136:8080/ws");
+	var socket = new WebSocket("ws://localhost:8080/ws");
+	socket.binaryType = "arraybuffer";
+
+	socket.onopen = function() {
+		console.log("WebSocket opened!");
+		isopen = true;
+
+		// init camera
+		// Grab elements, create settings, etc.
+		var video = document.getElementById("video"),
+			videoObj = { "video": true },
+			errBack = function(error) {
+				console.log("Video capture error: ", error.code); 
+			};
+		// Put video listeners into place
+		if(navigator.getUserMedia) { // Standard
+			navigator.getUserMedia(videoObj, function(stream) {
+				video.src = stream;
+				video.play();
+			}, errBack);
+		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+			navigator.webkitGetUserMedia(videoObj, function(stream){
+				video.src = window.webkitURL.createObjectURL(stream);
+				video.play();
+			}, errBack);
+		}
+		else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+			navigator.mozGetUserMedia(videoObj, function(stream){
+				video.src = window.URL.createObjectURL(stream);
+				video.play();
+			}, errBack);
+		}
+	}
+
+	socket.onmessage = function(e) {
+		//console.log(e);
+		if (typeof e.data == "string") {
+			var data = JSON.parse(e.data);
+			if (data['type'] == 'heartbeat') {
+				$("#loader").hide();
+				onHeartbeat(data);
+			} else if (data['type'] == 'action') {
+				onAction(data);
+			} else if (data['type'] == 'message') {
+				console.log('Message received from the server: ' + data['message']);
+				$("#loader_message_holder").text(data['message']);
+			} else {
+				console.log('Unknown data type received from the server: ' + e.data);
+			}
+        } else {
+          	var arr = new Uint8Array(e.data);
+          	var hex = '';
+          	for (var i = 0; i < arr.length; i++) {
+          		hex += ('00' + arr[i].toString(16)).substr(-2);
+          	}
+          	console.log("Binary message received: " + hex);
+        }
+    }
+
+    var setValue = function(className, value) {
+    	var entries = document.getElementsByClassName(className);
+		Array.prototype.forEach.call(entries, function(entry) {
+			entry.innerHTML = value;
+		});
+    };
+
+    var setDustInElement = function(id, value) {
+    	var element = document.getElementById(id);
+    	if (undefined !== element && null !== element) {
+    		// TODO: remove duplication; see setTemperatureThermometer
+    		var inputLow = 800;
+    		var inputHigh = 1100;
+
+    		var outputLow = 0;
+    		var outputHigh = 10;
+
+    		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
+    		var rounded = Number(result).toFixed(2);
+
+
+    		element.setAttribute('style', '-webkit-filter: blur(' + rounded + 'px)');
+    	}
+    };
+
+    var setTemperatureThermometer = function(bar, progress, value) {
+    	var inputLow = 0;
+		var inputHigh = 40;
+
+		var outputLow = 0;
+		var outputHigh = 100;
+
+		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
+		var rounded = Number(result).toFixed(2);
+
+		document.getElementById(bar).style.width = "" + rounded + "%";
+		document.getElementById(progress).innerHTML = "" + value + "&deg;C";
+    };
+
+    var setTemperatureImage = function(id, value) {
+    	var coldThreshold = 25;
+    	var element = document.getElementById(id);
+    	if (undefined !== element && null !== element) {
+    		if (value < coldThreshold) {
+    			element.setAttribute('src', '{{ static_url("images/0302-snow-snowflakes-icon_128.png") }}');
+    		} else {
+    			element.setAttribute('src', '{{ static_url("images/0101-sun-smile-glasses-icon_128.png") }}');
+    		}
+    	}
+    };
+
+    var onHeartbeat = function(data) {
+      	for (key in data) {
+			if (key == 'time') {
+				document.getElementById("time").innerHTML = data[key];
+			} else if (key == 'pacman_data') {
+				setValue('distance', data[key][0]);
+				setValue('record_number', data[key][2]);
+				setValue('temperature_1', data[key][3]);
+				setValue('temperature_2', data[key][4]);
+				setValue('dust', data[key][1]);
+				setValue('co', data[key][6]);
+				setValue('co2', data[key][5]);
+				setValue('co_status', data[key][8]);
+				setValue('movement', data[key][7]);
+
+				// Example with blur
+				setDustInElement('dust_image', data[key][1]);
+				// Example with thermomether (actually a rotated progress bar)
+				setTemperatureThermometer('temperature_bar', 'temperature_progress', data[key][4]);
+				// Example with temperature image
+				setTemperatureImage('temperature_image', data[key][4]);
+				// Video example with blur
+				setDustInElement('video', data[key][1]);
+			}
+      	}
+    };
+
+    var onAction = function(data) {
+    	console.log("Action: " + data);
+    };
+
+    socket.onclose = function(e) {
+    	console.log("WebSocket closed.");
+      	socket = null;
+      	isopen = false;
+    }
+
+// Handling actions in the UI
+//     $('#my_button').click(function() {
+//     	var $button = $(this);
+// //    	$button.attr('disabled','disabled');
+//     	if (socket) {
+// 	    	var message = {
+// 	    		'type': "my_button"
+// 	    	};
+// 	    	var payload = JSON.stringify(message);
+// 	    	socket.send(payload);
+// 	    	$button.attr('enabled','');
+// 	    }
+// 	    return false;
+//     });
+
+});
+  </script>
+</body>
+</html>
