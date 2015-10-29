@@ -7,9 +7,10 @@ WIP
 You will need the following tools installed in order to run this app
 
 - Python 2.7+
-- Tornado (pip install tornado)
+- Tornado (`pip install tornado`)
+- pySerial (`pip install pyserial`)
 
-It has been developed and tested on a Ubuntu 14.04 with Chrome 46+ and on a Mac OS 10 with Chrome 46+.
+It has been developed and tested on a Ubuntu 14.04 with Chrome 46+, on a Mac OS 10 with Chrome 46+ and on a RPi Raspbian Jessie with Midori 0.5.11+
 
 Once you have cloned the repository locally, fire your terminal in the project directory, and start the system with `python run.py`. You can browse the app in your browser using the URL `http://localhost:8080`.
 
