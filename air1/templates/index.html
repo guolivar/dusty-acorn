@@ -217,8 +217,8 @@ $(function() { // only when the page has loaded and jQuery is ready
 			if (key == 'time') {
 				document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][0]);
-				setValue('record_number', data[key][2]);
+				setValue('distance', data[key][2]);
+				setValue('record_number', data[key][0]);
 				setValue('temperature_1', data[key][3]);
 				setValue('temperature_2', data[key][4]);
 				setValue('dust', data[key][1]);
