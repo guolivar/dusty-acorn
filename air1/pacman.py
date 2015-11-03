@@ -42,8 +42,6 @@ class Pacman(object):
 		""" Reads data from pacman """
 		if (self.mode_line == 'live'):
 			# Get a line of data from PACMAN
-			self.ser.flushInput()
-			self.ser.flushOutput()
 			line = self.ser.readline()
 		else:
 			end = len(self.lines)
@@ -68,6 +66,8 @@ class Pacman(object):
 				mov = p_vec[13] #7
 				co_st = p_vec[14] #8
 			else:
+				print("Short data line")
+				print(p_vec)
 				indx=-99
 				dust=-99
 				distance=-99
@@ -78,6 +78,8 @@ class Pacman(object):
 				mov=-99
 				co_st=-99
 		else:
+			print("Non numeric first character")
+			print(line)
 			indx=-99
 			dust=-99
 			distance=-99
