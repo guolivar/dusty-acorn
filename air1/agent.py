@@ -30,6 +30,8 @@ class Agent(Thread):
         self.pc_time = datetime.datetime.now()
         self.has_been_initialized = False
         self.running = True
+        print('Agent initialised')
+        print(self.pc_time)
 
     def close(self):
         """ Deletes any object no needed any more, close connections, etc """
