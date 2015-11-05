@@ -1,7 +1,6 @@
 from random import randint
 import serial # Serial communications
-import os #OS calls to control the screensaver
-import pygame.midi # to generate tones
+import os #OS calls to control the screensaver and play sounds
 import time
 
 class Pacman(object):
@@ -40,16 +39,6 @@ class Pacman(object):
 			file = open("pacman_sample.txt", "r")
 			self.lines = file.read().split('\n')
 			file.close()
-		self.prevnote = 48
-		# Initialize MIDI component
-		instrument = 79 # Whistle
-		pygame.init()
-		pygame.midi.init()
-		port = 0
-		# global midiOutput   # It is used in other methods
-		self.midiOutput = pygame.midi.Output(port, 0)
-		self.midiOutput.set_instrument(instrument)
-		
 
 	def read_data(self):
 		""" Reads data from pacman """
@@ -106,24 +95,14 @@ class Pacman(object):
 		# Deactivate screensaver with movement
 		if (mov>=1):
 			os.system("xscreensaver-command -deactivate") ##If there is movement ... deactivate the screensaver
-		# Play a tone that changes with distance
-		# http://www.derickdeleon.com/2014/07/midi-based-theremin-using-raspberry-pi.html
-		""" Compute the note based on the distance measurements, get percentages of each scale and compare """
-		# Config
-		# you can play with these settings
-		minDist = 3    # Distance Scale
-		maxDist = 200
-		octaves = 1
-		minNote = 48   # c4 middle c
-		maxNote = minNote + 12*octaves
-		# Percentage formula
-		fup = (distance - minDist)*(maxNote-minNote)
-		fdown = (maxDist - minDist)
-		note2play = int(minNote + fup/fdown)
-		self.midiOutput.note_off(self.prevnote,127)
-		self.midiOutput.note_on(note2play,127)
-		self.prevnote = note2play
-		
+		# Play a sound file that changes with distance
+		print(distance)
+		if distance < 380:
+			os.system('mpg123 -q 442.mp3 &')
+		elif distance < 650:
+			os.system('mpg123 -q 454.mp3 &')
+		else:
+			os.system('mpg123 -q 466.mp3 &')
 		return (indx, dust, distance, t1, t2, co2, co, mov, co_st)
 
 
