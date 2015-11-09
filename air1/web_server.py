@@ -37,6 +37,18 @@ class IndexHandler(WebHandler):
     def get(self):
         self.render("index.html", app_name='Air 1')
 
+# /grid.html
+class GridHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("grid.html", app_name='Air 1')
+
+# /bars.html
+class BarsHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("bars.html", app_name='Air 1')
+
 # websockets
 clients = []
 class MetricsHandler(WebSocketHandler):
@@ -76,6 +88,8 @@ def main():
         handlers = [
             (r"/", IndexHandler),
             (r"/index.html", IndexHandler), 
+            (r"/grid.html", GridHandler),
+            (r"/bars.html", BarsHandler),  
             (r"/ws", MetricsHandler)
             ],
         cookie_secret="__air_1__",

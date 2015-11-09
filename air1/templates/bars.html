@@ -1,0 +1,163 @@
+<html>
+	<head>
+		<!-- Standard Meta -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<!-- Site Properities -->
+		<title>air 1</title>
+		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
+		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
+	</head>
+	<body style="background-color: black; margin: 0;">
+		<div class="gridster">
+			<ul>
+				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>Temperature</h1>
+						<div id="temperature_widget" style="background-color: #e74c3c"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>Dust</h1>
+						<div id="dust_widget" style="background-color: #2980b9"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>CO2</h1>
+						<div id="co2_widget" style="background-color: #2ecc71"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>Movement</h1>
+						<div id="movement_widget" style="background-color: #9b59b6"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+<script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
+<script src="{{ static_url("jquery.gridster.js") }}" type="text/javascript"></script>
+<script src="{{ static_url("particles.min.js") }}" type="text/javascript"></script>
+<script src="{{ static_url("app.js") }}" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() { // only when the page has loaded and jQuery is ready
+	// start gridster
+	$('.gridster ul').gridster({
+		widget_margins: [10, 10],
+		widget_base_dimensions: [460, 1050],
+		max_cols: 4
+	});
+
+	var isopen = false;
+	var socket = new WebSocket("ws://localhost:8080/ws");
+	socket.binaryType = "arraybuffer";
+
+	socket.onopen = function() {
+		console.log("WebSocket opened!");
+		isopen = true;
+	}
+
+	socket.onmessage = function(e) {
+		//console.log(e);
+		if (typeof e.data == "string") {
+			var data = JSON.parse(e.data);
+			if (data['type'] == 'heartbeat') {
+				$("#loader").hide();
+				onHeartbeat(data);
+			} else if (data['type'] == 'action') {
+				onAction(data);
+			} else if (data['type'] == 'message') {
+				console.log('Message received from the server: ' + data['message']);
+				$("#loader_message_holder").text(data['message']);
+			} else {
+				console.log('Unknown data type received from the server: ' + e.data);
+			}
+        } else {
+          	var arr = new Uint8Array(e.data);
+          	var hex = '';
+          	for (var i = 0; i < arr.length; i++) {
+          		hex += ('00' + arr[i].toString(16)).substr(-2);
+          	}
+          	console.log("Binary message received: " + hex);
+        }
+    }
+
+    var setValue = function(className, value) {
+    	var entries = document.getElementsByClassName(className);
+		Array.prototype.forEach.call(entries, function(entry) {
+			entry.innerHTML = value;
+		});
+    };
+
+    var setProgressBarHeight = function(id, value, min, max, color) {
+    	var element = document.getElementById(id);
+    	if (undefined !== element && null !== element) {
+    		var inputLow = min;
+    		var inputHigh = max;
+
+    		var outputLow = 0;
+    		var outputHigh = 100;
+
+    		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
+    		var rounded = Number(result).toFixed(2);
+
+    		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
+       	}
+    };
+
+    var onHeartbeat = function(data) {
+      	for (key in data) {
+			if (key == 'time') {
+				//document.getElementById("time").innerHTML = data[key];
+			} else if (key == 'pacman_data') {
+				setValue('distance', data[key][2]);
+				setValue('record_number', data[key][0]);
+				setValue('temperature_1', data[key][3]);
+				setValue('temperature_2', data[key][4]);
+				setValue('dust', data[key][1]);
+				setValue('co', data[key][6]);
+				setValue('co2', data[key][5]);
+				setValue('co_status', data[key][8]);
+				setValue('movement', data[key][7]);
+
+				setProgressBarHeight("temperature_widget", data[key][4], 0, 40, '#e74c3c');
+				setProgressBarHeight("dust_widget", data[key][1], 600, 1200, '#2980b9');
+				setProgressBarHeight("co2_widget", data[key][5], 700, 1200, '#2ecc71');
+				setProgressBarHeight("movement_widget", data[key][7], 100, 600, '#9b59b6');
+			}
+      	}
+    };
+
+    var onAction = function(data) {
+    	console.log("Action: " + data);
+    };
+
+    socket.onclose = function(e) {
+    	console.log("WebSocket closed.");
+      	socket = null;
+      	isopen = false;
+    }
+
+// Handling actions in the UI
+//     $('#my_button').click(function() {
+//     	var $button = $(this);
+// //    	$button.attr('disabled','disabled');
+//     	if (socket) {
+// 	    	var message = {
+// 	    		'type': "my_button"
+// 	    	};
+// 	    	var payload = JSON.stringify(message);
+// 	    	socket.send(payload);
+// 	    	$button.attr('enabled','');
+// 	    }
+// 	    return false;
+//     });
+
+});
+  </script>
+</body>
+</html>

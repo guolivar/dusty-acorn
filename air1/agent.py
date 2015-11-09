@@ -10,7 +10,8 @@ from threading import Thread
 
 # choose which pacman to use dynamically
 import importlib
-serial_device_class = "air1.pacman.Pacman"
+#serial_device_class = "air1.pacman.Pacman"
+serial_device_class = "air1.pacman.FakePacman"
 module_name, class_name = serial_device_class.rsplit('.', 1)
 SerialDeviceClass = getattr(importlib.import_module(module_name), class_name)
 
