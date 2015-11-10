@@ -1,2 +1,2 @@
 test
-/dev/ttyUSB1,57600,N,8,n
+/dev/ttyAMA0,57600,N,8,n

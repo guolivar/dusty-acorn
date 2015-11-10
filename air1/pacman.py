@@ -26,6 +26,7 @@ class Pacman(object):
 		# Close the settings file
 		settings_file.close()
 		if (self.mode_line == 'live'):
+			# If live ... open the serial port
 			# Open the serial port and clean the I/O buffer
 			self.ser = serial.Serial()
 			self.ser.port = settings_line[0]
@@ -36,9 +37,13 @@ class Pacman(object):
 			self.ser.flushInput()
 			self.ser.flushOutput()
 		else:
+			# If test ... open and read sample file
 			file = open("pacman_sample.txt", "r")
 			self.lines = file.read().split('\n')
 			file.close()
+		# Initialise the activity counter
+		self.movlist = [0] * 60
+		
 
 	def read_data(self):
 		""" Reads data from pacman """
@@ -50,8 +55,15 @@ class Pacman(object):
 			start = 1
 			idx = randint(start, end)
 			line = self.lines[idx]
-		entry = self.parse_line(line)
-		return entry
+		self.rawentry = self.parse_line(line)
+		self.entry = self.rawentry
+		if (self.entry[8]==1) & (self.prev_entry[8]==2):
+			self.entry[6]=self.prev_rawentry[6]
+		else:
+			self.entry[6]=self.prev_entry[6]
+		self.prev_rawentry = self.rawentry
+		self.prev_entry = self.entry
+		return self.entry
 
 	def parse_line(self, line):
 		#Get the measurements
@@ -95,12 +107,28 @@ class Pacman(object):
 		# Deactivate screensaver with movement
 		if (mov>=1):
 			os.system("xscreensaver-command -deactivate") ##If there is movement ... deactivate the screensaver
+		# Activate screensaver when there is little movement (50% or less in the last minute)
+		self.movlist = [mov] + self.movlist[:-1]
+		activity = self.movlist/len(self.movlist)
+		if (activity < 0.5):
+			os.system("xscreensaver-command -activate") ##If there is little movement ... activate the screensaver
 		# Play a sound file that changes with distance
+		# C D E F G A B
 		print(distance)
-		if distance < 30:
-			os.system('mpg123 -q 442.mp3 &')
+		if (distance < 30) & (distance>0):
+			os.system('mpg123 -q C.mp3 &')
+		elif distance < 45:
+			os.system('mpg123 -q D.mp3 &')
 		elif distance < 60:
-			os.system('mpg123 -q 454.mp3 &')
+			os.system('mpg123 -q E.mp3 &')
+		elif distance < 75:
+			os.system('mpg123 -q F.mp3 &')
+		elif distance < 90:
+			os.system('mpg123 -q G.mp3 &')
+		elif distance < 105:
+			os.system('mpg123 -q A.mp3 &')
+		elif distance < 120:
+			os.system('mpg123 -q B.mp3 &')
 		else:
-			os.system('mpg123 -q 466.mp3 &')
-		return (indx, dust, distance, t1, t2, co2, co, mov, co_st)
+			os.system('mpg123 -q silence.mp3 &')
+		return (indx, dust, distance, t1, t2, co2, co, activity, co_st)

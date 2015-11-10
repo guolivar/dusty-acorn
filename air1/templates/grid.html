@@ -137,7 +137,7 @@ $(function() { // only when the page has loaded and jQuery is ready
     };
 
     var updateParticles = function(amount) {
-    	window.pJSDom[0].pJS.particles.number.value = amount;
+    	window.pJSDom[0].pJS.particles.number.value = (amount/100)^3;
     	window.pJSDom[0].pJS.fn.particlesEmpty();
     	window.pJSDom[0].pJS.fn.particlesCreate();
     	//window.pJSDom[0].pJS.fn.particlesRefresh();
