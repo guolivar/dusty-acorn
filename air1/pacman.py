@@ -110,12 +110,13 @@ class Pacman(object):
 		# Deactivate screensaver with movement
 		mov = 1
 		if (mov>=1):
-			os.system("xscreensaver-command -deactivate") ##If there is movement ... deactivate the screensaver
+			os.system("xscreensaver-command -deactivate &") ##If there is movement ... deactivate the screensaver
 		# Activate screensaver when there is little movement (50% or less in the last minute)
 		self.movlist = [mov] + self.movlist[:-1]
 		activity = sum(self.movlist)/len(self.movlist)
+		activity = 1
 		if (activity < 0.5):
-			os.system("xscreensaver-command -activate") ##If there is little movement ... activate the screensaver
+			os.system("xscreensaver-command -activate &") ##If there is little movement ... activate the screensaver
 		# Play a sound file that changes with distance
 		# C D E F G A B
 		print(distance)
