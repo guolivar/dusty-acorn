@@ -17,12 +17,6 @@ class Pacman(object):
 		par  = settings_line[2]
 		byte = eval(settings_line[3])
 		ceol = settings_line[4]
-		if ceol == 'r':
-			eol = b'\r'
-		elif ceol == 'nr':
-			eol = b'\n\r'
-		else:
-			eol = b'\n'
 		# Close the settings file
 		settings_file.close()
 		if (self.mode_line == 'live'):
@@ -109,7 +103,7 @@ class Pacman(object):
 			os.system("xscreensaver-command -deactivate") ##If there is movement ... deactivate the screensaver
 		# Activate screensaver when there is little movement (50% or less in the last minute)
 		self.movlist = [mov] + self.movlist[:-1]
-		activity = self.movlist/len(self.movlist)
+		activity = sum(self.movlist)/len(self.movlist)
 		if (activity < 0.5):
 			os.system("xscreensaver-command -activate") ##If there is little movement ... activate the screensaver
 		# Play a sound file that changes with distance
@@ -131,4 +125,4 @@ class Pacman(object):
 			os.system('mpg123 -q B.mp3 &')
 		else:
 			os.system('mpg123 -q silence.mp3 &')
-		return (indx, dust, distance, t1, t2, co2, co, activity, co_st)
+		return (indx, dust, distance, t1, t1, co2, co, activity, co_st)
