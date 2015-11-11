@@ -108,6 +108,7 @@ class Pacman(object):
 			co_st=-99
 		#PACMAN controlled activities
 		# Deactivate screensaver with movement
+		mov = 1
 		if (mov>=1):
 			os.system("xscreensaver-command -deactivate") ##If there is movement ... deactivate the screensaver
 		# Activate screensaver when there is little movement (50% or less in the last minute)
