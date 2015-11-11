@@ -37,7 +37,11 @@ class Pacman(object):
 			file.close()
 		# Initialise the activity counter
 		self.movlist = [0] * 60
-		
+		# Initialise the CO handling containers
+		self.entry = self.parse_line("a")
+		self.rawentry = self.entry
+		self.prev_entry = self.entry
+		self.prev_rawentry = self.entry
 
 	def read_data(self):
 		""" Reads data from pacman """
@@ -49,14 +53,19 @@ class Pacman(object):
 			start = 1
 			idx = randint(start, end)
 			line = self.lines[idx]
-		self.rawentry = self.parse_line(line)
-		self.entry = self.rawentry
-		if (self.entry[8]==1) & (self.prev_entry[8]==2):
-			self.entry[6]=self.prev_rawentry[6]
-		else:
-			self.entry[6]=self.prev_entry[6]
-		self.prev_rawentry = self.rawentry
-		self.prev_entry = self.entry
+		# TODO deal with CO data ... the code below throws errors
+		#self.rawentry = self.parse_line(line)
+		#print(self.entry)
+		#self.entry = self.rawentry
+		#print(self.entry)
+		#print(self.prev_entry)
+		#if (self.entry[8]==1) & (self.prev_entry[8]==2):
+			#self.entry = self.entry[0:5] + (self.prev_rawentry[6],) + self.entry[7:8]
+		#else:
+			#self.entry = self.entry[0:5] + (self.prev_entry[6],) + self.entry[7:8]
+		#self.prev_rawentry = self.rawentry
+		#self.prev_entry = self.entry
+		#self.entry
 		return self.entry
 
 	def parse_line(self, line):
