@@ -53,8 +53,8 @@ class Pacman(object):
 			start = 1
 			idx = randint(start, end)
 			line = self.lines[idx]
+		self.entry = self.parse_line(line)
 		# TODO deal with CO data ... the code below throws errors
-		#self.rawentry = self.parse_line(line)
 		#print(self.entry)
 		#self.entry = self.rawentry
 		#print(self.entry)
