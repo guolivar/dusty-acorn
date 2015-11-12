@@ -65,7 +65,7 @@ class Pacman(object):
 			#self.entry = self.entry[0:5] + (self.prev_entry[6],) + self.entry[7:8]
 		#self.prev_rawentry = self.rawentry
 		#self.prev_entry = self.entry
-		#self.entry
+		print(self.entry)
 		return self.entry
 
 	def parse_line(self, line):

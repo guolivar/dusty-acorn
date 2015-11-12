@@ -1,6 +1,6 @@
 # DUSTY Air quality CORNer
 
-WIP
+Data parsing and visualisation for the Children's Air Quality Learning Corner. The data comes from a PACMAN (https://bitbucket.org/guolivar/pacman/wiki/Home) and it is converted to web pages aimed at children.
 
 ## Running the app locally
 
