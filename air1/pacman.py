@@ -78,7 +78,7 @@ class Pacman(object):
 				distance = p_vec[7] #2
 				t1 = p_vec[8] #3
 				t2 = p_vec[9] #4
-				co2 = p_vec[11] #5
+				co2 = -1*p_vec[11] #5
 				co = p_vec[12] #6
 				mov = p_vec[13] #7
 				co_st = p_vec[14] #8
@@ -108,14 +108,12 @@ class Pacman(object):
 			co_st=-99
 		#PACMAN controlled activities
 		# Deactivate screensaver with movement
-		mov = 1
-		if (mov>=1):
+		if (1>=1):
 			os.system("xscreensaver-command -deactivate &") ##If there is movement ... deactivate the screensaver
 		# Activate screensaver when there is little movement (50% or less in the last minute)
 		self.movlist = [mov] + self.movlist[:-1]
 		activity = sum(self.movlist)/len(self.movlist)
-		activity = 1
-		if (activity < 0.5):
+		if (1 < 0.5):
 			os.system("xscreensaver-command -activate &") ##If there is little movement ... activate the screensaver
 		# Play a sound file that changes with distance
 		# C D E F G A B

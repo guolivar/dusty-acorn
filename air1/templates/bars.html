@@ -8,8 +8,12 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
+		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;">
+	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
+		<center>
+			<div><img id="mjpeg_dest" /></div>
+		</center>
 		<div class="gridster">
 			<ul>
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
@@ -130,11 +134,11 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], 15, 30, '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], 10, 40, '#0000ff');
 				setProgressBarHeight("dust_widget", data[key][1], 600, 1200, '#008000');
-				setProgressBarHeight("co2_widget", data[key][5], 700, 1200, '#800080');
+				setProgressBarHeight("co2_widget", data[key][5], -1200,-700, '#800080');
 				setProgressBarHeight("movement_widget", data[key][7], 0, 1, '#ffff00');
-				setProgressBarHeight("distance_widget", data[key][2], 0, 1, '#ffa500');
+				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
 
 			}
       	}
@@ -149,6 +153,20 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
+    // For the camera
+	var mjpeg_img;
+	function reload_img () {
+		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
+	}
+	function error_img () {
+		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
+	}
+	function init() {
+		mjpeg_img = document.getElementById("mjpeg_dest");
+		mjpeg_img.onload = reload_img;
+		mjpeg_img.onerror = error_img;
+		reload_img();
+	}
 
 // Handling actions in the UI
 //     $('#my_button').click(function() {
