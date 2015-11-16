@@ -15,9 +15,9 @@ It has been developed and tested on a Ubuntu 14.04 with Chrome 46+, on a Mac OS 
 Once you have cloned the repository locally, fire your terminal in the project directory, and start the system with `python run.py`. You can browse the app in your browser using the URL `http://localhost:8080`.
 
 Different web pages have been implemented to test different visualization methods:
-* `http://localhost:8080/index.html' Basic "hello world" page showing the live feed from PACMAN as a table of values and as simple visualizations. Intended to illustrate the data and general visualization capabilities.
-* `http://localhost:8080/bars.html' Vertical bars covering the screen, one for each sensor in different colours that reflect the measurements, taller bar means higher measurements.
-* `http://localhost:8080/bars.html' The screen is divided in 4 sections dealing with specific sensors.
+* `http://localhost:8080/index.html` Basic "hello world" page showing the live feed from PACMAN as a table of values and as simple visualizations. Intended to illustrate the data and general visualization capabilities.
+* `http://localhost:8080/bars.html` Vertical bars covering the screen, one for each sensor in different colours that reflect the measurements, taller bar means higher measurements.
+* `http://localhost:8080/bars.html` The screen is divided in 4 sections dealing with specific sensors.
 
 It will call the main method in the web_server.py script, which starts i) a Tornado web application with some handlers, a WebSocket server, two queues and a periodic callback (to check one of the queues), and ii) another "agent" thread.
 
