@@ -49,6 +49,18 @@ class BarsHandler(WebHandler):
     def get(self):
         self.render("bars.html", app_name='Air 1')
 
+# /distance.html
+class DistanceHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("distance.html", app_name='Air 1')
+        
+# /dust.html
+class DustHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("dust.html", app_name='Air 1')
+
 # websockets
 clients = []
 class MetricsHandler(WebSocketHandler):
@@ -90,6 +102,8 @@ def main():
             (r"/index.html", IndexHandler), 
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),  
+            (r"/distance.html", DistanceHandler),
+            (r"/dust.html", DustHandler),
             (r"/ws", MetricsHandler)
             ],
         cookie_secret="__air_1__",

@@ -1,0 +1,1 @@
+RecordNumber	Year	Month	Day	Hour	Minute	Second	Distance	Temperature1	Temperature2	Dust	CO2	CO	Movement	CO_status

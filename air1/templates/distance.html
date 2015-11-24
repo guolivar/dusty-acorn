@@ -18,30 +18,6 @@
 			<ul>
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Temperature</h1>
-						<div id="temperature_widget" style="background-color: #0000ff"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Dust</h1>
-						<div id="dust_widget" style="background-color: #008000"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>CO2</h1>
-						<div id="co2_widget" style="background-color: #800080"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Movement</h1>
-						<div id="movement_widget" style="background-color: #ffff00"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
 						<h1>Distance</h1>
 						<div id="distance_widget" style="background-color: #ffa500"></div>
 					</div>
@@ -62,7 +38,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
 		widget_margins: [5, 5],
-		widget_base_dimensions: [330, 1000],
+		widget_base_dimensions: [1000, 1000],
 		max_cols: 5
 	});
 

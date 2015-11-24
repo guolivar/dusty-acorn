@@ -49,8 +49,8 @@ class Pacman(object):
 			# Get a line of data from PACMAN
 			line = self.ser.readline()
 		else:
-			end = len(self.lines)
-			start = 1
+			end = len(self.lines) - 1
+			start = 0
 			idx = randint(start, end)
 			line = self.lines[idx]
 		self.entry = self.parse_line(line)
@@ -70,21 +70,34 @@ class Pacman(object):
 
 	def parse_line(self, line):
 		#Get the measurements
-		if (line[0].isdigit()):
-			p_vec = map(float,line.split())
-			if (len(p_vec)>=14):
-				indx = p_vec[0] #0
-				dust =p_vec[10] #1
-				distance = p_vec[7] #2
-				t1 = p_vec[8] #3
-				t2 = p_vec[9] #4
-				co2 = -1*p_vec[11] #5
-				co = p_vec[12] #6
-				mov = p_vec[13] #7
-				co_st = p_vec[14] #8
+		if len(line) >0:
+			if (line[0].isdigit()):
+				p_vec = map(float,line.split())
+				if (len(p_vec)>=14):
+					indx = p_vec[0] #0
+					dust =p_vec[10] #1
+					distance = p_vec[7] #2
+					t1 = p_vec[8] #3
+					t2 = p_vec[9] #4
+					co2 = -1*p_vec[11] #5
+					co = p_vec[12] #6
+					mov = p_vec[13] #7
+					co_st = p_vec[14] #8
+				else:
+					print("Short data line")
+					print(p_vec)
+					indx=-99
+					dust=-99
+					distance=-99
+					t1=-99
+					t2=-99
+					co2=-99
+					co=-99
+					mov=-99
+					co_st=-99
 			else:
-				print("Short data line")
-				print(p_vec)
+				print("Non numeric first character")
+				print(line)
 				indx=-99
 				dust=-99
 				distance=-99
@@ -95,7 +108,7 @@ class Pacman(object):
 				mov=-99
 				co_st=-99
 		else:
-			print("Non numeric first character")
+			print("Line too short")
 			print(line)
 			indx=-99
 			dust=-99
@@ -118,20 +131,20 @@ class Pacman(object):
 		# Play a sound file that changes with distance
 		# C D E F G A B
 		print(distance)
-		if (distance < 30) & (distance>0):
-			os.system('mpg123 -q C.mp3 &')
-		elif distance < 45:
-			os.system('mpg123 -q D.mp3 &')
-		elif distance < 60:
-			os.system('mpg123 -q E.mp3 &')
-		elif distance < 75:
-			os.system('mpg123 -q F.mp3 &')
-		elif distance < 90:
-			os.system('mpg123 -q G.mp3 &')
-		elif distance < 105:
-			os.system('mpg123 -q A.mp3 &')
-		elif distance < 120:
-			os.system('mpg123 -q B.mp3 &')
-		else:
-			os.system('mpg123 -q silence.mp3 &')
+		#if (distance < 30) & (distance>0):
+			#os.system('mpg123 -q C.mp3 &')
+		#elif distance < 45:
+			#os.system('mpg123 -q D.mp3 &')
+		#elif distance < 60:
+			#os.system('mpg123 -q E.mp3 &')
+		#elif distance < 75:
+			#os.system('mpg123 -q F.mp3 &')
+		#elif distance < 90:
+			#os.system('mpg123 -q G.mp3 &')
+		#elif distance < 105:
+			#os.system('mpg123 -q A.mp3 &')
+		#elif distance < 120:
+			#os.system('mpg123 -q B.mp3 &')
+		#else:
+			#os.system('mpg123 -q silence.mp3 &')
 		return (indx, dust, distance, t1, t1, co2, co, activity, co_st)
