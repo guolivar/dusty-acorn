@@ -61,7 +61,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	});
 
 	var isopen = false;
-	var socket = new WebSocket("ws://localhost:8080/ws");
+	var socket = new WebSocket("ws://127.0.0.1:8080/ws");
 	socket.binaryType = "arraybuffer";
 
 	socket.onopen = function() {

@@ -129,7 +129,7 @@ def main():
 
     # listen to the port and start the app loop and wait for clients
     server = HTTPServer(app)
-    server.listen(options.port, '127.0.0.1')
+    server.listen(options.port)
     print "Listening on port:", options.port
 
     def checkResults():
