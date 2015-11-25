@@ -42,9 +42,9 @@ class Pacman(object):
 		self.frameDUST = [0] * 60
 		self.frameTEMP = [10] * 60
 		# Initialise max/min for scaling Output
-		self.frameCO2[59] = -2500
-		self.frameDUST[59] = 3000
-		self.frameTEMP[59] = 30
+		self.frameCO2 = [-2500] + self.frameCO2[:-1]
+		self.frameDUST = [3000] + self.frameDUST[:-1]
+		self.frameTEMP = [30] + self.frameTEMP[:-1]
 		# Initialise the max/min for scales
 		self.maxCO2 = max(self.frameCO2)
 		self.minCO2 = min(self.frameCO2)
@@ -147,7 +147,7 @@ class Pacman(object):
 		# Update the frame of data for scale
 		self.frameCO2 = [co2] + self.frameCO2[:-1]
 		self.frameDUST = [dust] + self.frameDUST[:-1]
-		self.frameTEMP = [t2] + self.frameTEMP[:-1]
+		self.frameTEMP = [t1] + self.frameTEMP[:-1]
 		# Calculate the max/min for each stream only for valid data lines
 		if (indx>0):
 			self.maxCO2 = max(self.frameCO2)
