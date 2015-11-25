@@ -37,6 +37,22 @@ class Pacman(object):
 			file.close()
 		# Initialise the activity counter
 		self.movlist = [0] * 60
+		# Initialise the frames for scaling Output
+		self.frameCO2 = [0] * 60
+		self.frameDUST = [0] * 60
+		self.frameTEMP = [10] * 60
+		# Initialise max/min for scaling Output
+		self.frameCO2[59] = -2500
+		self.frameDUST[59] = 3000
+		self.frameTEMP[59] = 30
+		# Initialise the max/min for scales
+		self.maxCO2 = max(self.frameCO2)
+		self.minCO2 = min(self.frameCO2)
+		self.maxDUST = max(self.frameDUST)
+		self.minDUST = min(self.frameDUST)
+		self.maxTEMP = max(self.frameTEMP)
+		self.minTEMP = min(self.frameTEMP)
+
 		# Initialise the CO handling containers
 		self.entry = self.parse_line("a")
 		self.rawentry = self.entry
@@ -128,23 +144,19 @@ class Pacman(object):
 		activity = sum(self.movlist)/len(self.movlist)
 		if (1 < 0.5):
 			os.system("xscreensaver-command -activate &") ##If there is little movement ... activate the screensaver
-		# Play a sound file that changes with distance
+		# Update the frame of data for scale
+		self.frameCO2 = [co2] + self.frameCO2[:-1]
+		self.frameDUST = [dust] + self.frameDUST[:-1]
+		self.frameTEMP = [t2] + self.frameTEMP[:-1]
+		# Calculate the max/min for each stream only for valid data lines
+		if (indx>0):
+			self.maxCO2 = max(self.frameCO2)
+			self.minCO2 = min(self.frameCO2)
+			self.maxDUST = max(self.frameDUST)
+			self.minDUST = min(self.frameDUST)
+			self.maxTEMP = max(self.frameTEMP)
+			self.minTEMP = min(self.frameTEMP)
 		# C D E F G A B
 		print(distance)
-		#if (distance < 30) & (distance>0):
-			#os.system('mpg123 -q C.mp3 &')
-		#elif distance < 45:
-			#os.system('mpg123 -q D.mp3 &')
-		#elif distance < 60:
-			#os.system('mpg123 -q E.mp3 &')
-		#elif distance < 75:
-			#os.system('mpg123 -q F.mp3 &')
-		#elif distance < 90:
-			#os.system('mpg123 -q G.mp3 &')
-		#elif distance < 105:
-			#os.system('mpg123 -q A.mp3 &')
-		#elif distance < 120:
-			#os.system('mpg123 -q B.mp3 &')
-		#else:
-			#os.system('mpg123 -q silence.mp3 &')
-		return (indx, dust, distance, t1, t1, co2, co, activity, co_st)
+		#         0    1       2       3   4   5    6   7         8       9      10       11       12      13       14
+		return (indx, dust, distance, t1, t1, co2, co, activity, co_st, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)

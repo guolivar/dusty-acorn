@@ -17,6 +17,10 @@
 				</li>
 			</ul>
 		</div>
+		<audio id="audiosource">
+			<source type="audio/mp3"  />
+			Your browser does not support the audio element.
+		</audio>
 	</body>
 <script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
 <script src="{{ static_url("jquery.gridster.js") }}" type="text/javascript"></script>
@@ -77,49 +81,6 @@ $(function() { // only when the page has loaded and jQuery is ready
 		});
     };
 
-    var setCo2InElement = function(id, value) {
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		// TODO: remove duplication; see setTemperatureThermometer
-    		var inputLow = 800;
-    		var inputHigh = 1100;
-
-    		var outputLow = 100;
-    		var outputHigh = 500;
-
-    		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
-    		var rounded = Number(result).toFixed(2);
-
-    		element.setAttribute('height', '' + rounded + 'px');
-    	}
-    };
-
-    var setTemperatureImage = function(id, value) {
-    	var coldThreshold = 25;
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		if (value < coldThreshold) {
-    			element.setAttribute('src', '{{ static_url("images/0302-snow-snowflakes-icon_128.png") }}');
-    			element.parentElement.parentElement.setAttribute('style', 'background-image: #2980b9;');
-    		} else {
-    			element.setAttribute('src', '{{ static_url("images/0101-sun-smile-glasses-icon_128.png") }}');
-    			element.parentElement.parentElement.setAttribute('style', 'background-color: #f1c40f');
-    		}
-    	}
-    };
-
-    var playVideo = function(id, value) {
-    	var movementThreshold = 100;
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		if (value < movementThreshold) {
-    			element.pause();
-    		} else {
-    			element.play();
-    		}
-    	}
-    };
-
     var updateParticles = function(amount) {
     	window.pJSDom[0].pJS.particles.number.value = (amount/100)^3;
     	window.pJSDom[0].pJS.fn.particlesEmpty();
@@ -142,10 +103,11 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setCo2InElement('co2_image', data[key][5]);
-				setTemperatureImage('temperature_image', data[key][4]);
-				playVideo('movement_video', data[key][7]);
 				updateParticles(data[key][1]);
+				if (data[key][1]>=data[key][12]) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				}
 			}
       	}
     };

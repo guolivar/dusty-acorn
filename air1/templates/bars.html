@@ -16,31 +16,25 @@
 		</center>
 		<div class="gridster">
 			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>Temperature</h1>
 						<div id="temperature_widget" style="background-color: #0000ff"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>Dust</h1>
 						<div id="dust_widget" style="background-color: #008000"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>CO2</h1>
 						<div id="co2_widget" style="background-color: #800080"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Movement</h1>
-						<div id="movement_widget" style="background-color: #ffff00"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>Distance</h1>
 						<div id="distance_widget" style="background-color: #ffa500"></div>
@@ -62,7 +56,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
 		widget_margins: [5, 5],
-		widget_base_dimensions: [330, 1000],
+		widget_base_dimensions: [400, 1000],
 		max_cols: 5
 	});
 
@@ -138,10 +132,9 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], 10, 40, '#0000ff');
-				setProgressBarHeight("dust_widget", data[key][1], 600, 1200, '#008000');
-				setProgressBarHeight("co2_widget", data[key][5], -1200,-700, '#800080');
-				setProgressBarHeight("movement_widget", data[key][7], 0, 1, '#ffff00');
+				setProgressBarHeight("temperature_widget", data[key][4], data[key][13], data[key][14], '#0000ff');
+				setProgressBarHeight("dust_widget", data[key][1], data[key][11], data[key][12], '#008000');
+				setProgressBarHeight("co2_widget", data[key][5], data[key][9],data[key][10], '#800080');
 				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
 				if (data[key][2] < 30 && data[key][2] > 0) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');

@@ -113,11 +113,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('co2', data[key][5]);
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
-
-				setProgressBarHeight("temperature_widget", data[key][4], 10, 40, '#0000ff');
-				setProgressBarHeight("dust_widget", data[key][1], 600, 1200, '#008000');
-				setProgressBarHeight("co2_widget", data[key][5], -1200,-700, '#800080');
-				setProgressBarHeight("movement_widget", data[key][7], 0, 1, '#ffff00');
+				
 				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
 				if (data[key][2] < 30 && data[key][2] > 0) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');

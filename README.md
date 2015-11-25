@@ -17,7 +17,14 @@ Once you have cloned the repository locally, fire your terminal in the project d
 Different web pages have been implemented to test different visualization methods:
 * `http://localhost:8080/index.html` Basic "hello world" page showing the live feed from PACMAN as a table of values and as simple visualizations. Intended to illustrate the data and general visualization capabilities.
 * `http://localhost:8080/bars.html` Vertical bars covering the screen, one for each sensor in different colours that reflect the measurements, taller bar means higher measurements.
-* `http://localhost:8080/bars.html` The screen is divided in 4 sections dealing with specific sensors.
+The range of the bars is defined by the last 60 readings (max/min).
+The distance sensor also controls the sounds emitted (think theremin).
+* `http://localhost:8080/grid.html` The screen is divided in 4 sections dealing with specific sensors.
+* `http://localhost:8080/temperature.html` The screen shows a single vertical bar scaled according to the last 60 readings (max/min) and if the max is reached, a chime plays.
+* `http://localhost:8080/co2.html` The screen shows a single vertical bar scaled according to the last 60 readings (max/min) and if the max is reached, a chime plays.
+* `http://localhost:8080/distance.html` The screen shows a single vertical bar scaled from 0 to ~60cm. The distance sensor also controls the sounds emitted (think theremin).
+* `http://localhost:8080/dust.html` The screen shows a field of particles floating. The number of particles in the window is controlled by the readings of the dust sensor.
+If the current reading is the max over the past 60 readings, a chime plays.
 
 It will call the main method in the web_server.py script, which starts i) a Tornado web application with some handlers, a WebSocket server, two queues and a periodic callback (to check one of the queues), and ii) another "agent" thread.
 
