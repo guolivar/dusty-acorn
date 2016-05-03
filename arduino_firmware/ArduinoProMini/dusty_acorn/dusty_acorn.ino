@@ -27,8 +27,7 @@ int x10=5;
 //Dust sensor variable
 unsigned long Dust;
 //Temperature sensor variable
-unsigned long Temp; //Temperature
-float Temp_in; //Temperature from RTC_DS3231
+unsigned long Temp, Temp_in; //Temperature
 //Distance variable 
 unsigned long Distance; //Distance
 //CO2 variable
@@ -145,7 +144,7 @@ String fname_date(DateTime ctime)
   return xx;
 }
 String recordstring(DateTime ctime){
-  String xx3= String(rcount) + "\t" + String(ctime.year()) + "\t" + String(ctime.month()) + "\t" + String(ctime.day()) +
+  String xx3= String(rcount) + "\t" + String(ctime.year()) + "\t" + String(ctime.month()) + "\t" + String(ctime.day()) + "\t" +
 	String(ctime.hour()) + "\t" + String(ctime.minute()) + "\t" + String(ctime.second()) + "\t" +
 	String(Distance) + "\t" + String(Temp) + "\t" + String(Temp_in) + "\t" +
 	String(Dust) + "\t" + String(CO2) + "\t" + String(CO) + "\t" + String(movement) + "\t" + String(COstatus);
@@ -163,7 +162,7 @@ void SaveData(DateTime xtime)
   //Temperature from analog
   Temp=GetTemperature();
   //Temperature from RTC_DS3231
-  Temp_in = RTC.getTempAsFloat();
+  Temp_in = 0;
   //Serial.println("Temperature Done");
   //CO2 from analog
   CO2=GetCO2();
@@ -284,12 +283,11 @@ void setup(){
   delay(100);
 }
 void loop(){
-    timer1 = millis();
-  time=RTC.now();
-  csec=time.second();
-  if (csec!=psec || (timer1 - timer0) > 1000) {
-    psec=csec;
-    timer0 = timer1;
-    SaveData(time);
-  }
+	timer1 = millis();
+	time=RTC.now();
+	//csec=time.second();
+	if  ((timer1 - timer0) > 1000) {
+		timer0 = timer1;
+		SaveData(time);
+	}
 }

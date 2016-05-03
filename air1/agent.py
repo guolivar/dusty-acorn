@@ -82,7 +82,7 @@ class Agent(Thread):
             # read the serial data
             metrics = self.get_metrics()
             self.resultQ.put(metrics)
-            time.sleep(0.5)
+            time.sleep(1)
 
     def get_metrics(self):
         """ This method must return a dict, that represents the metrics collected by the agent """
