@@ -1,0 +1,861 @@
+EESchema Schematic File Version 2  date Wed 18 Jul 2012 11:59:48 AM NZST
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:adafruit
+LIBS:Gus
+LIBS:Halley
+LIBS:SparkFun
+LIBS:PACMAN-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 1 1
+Title "PACMAN"
+Date "19 jan 2012"
+Rev "4"
+Comp "NIWA"
+Comment1 "Added power regulator, Xbee, Analog demux and CO"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+NoConn ~ 5200 3450
+NoConn ~ 6500 4350
+NoConn ~ 6500 4250
+NoConn ~ 6500 3750
+NoConn ~ 6500 3450
+NoConn ~ 1950 6500
+NoConn ~ 1950 7100
+NoConn ~ 5200 3950
+NoConn ~ 5200 4050
+NoConn ~ 5200 4150
+NoConn ~ 1200 4800
+NoConn ~ 1200 4700
+NoConn ~ 1200 4400
+Text Label 6700 3050 0    60   ~ 0
+VCC
+Wire Wire Line
+	6500 3050 6700 3050
+Wire Wire Line
+	10050 1800 9700 1800
+Wire Wire Line
+	10350 1400 9700 1400
+Wire Wire Line
+	10650 1200 9700 1200
+Connection ~ 9700 2000
+Connection ~ 10200 2450
+Wire Wire Line
+	10200 2000 10200 2450
+Connection ~ 8100 2450
+Wire Wire Line
+	10650 1700 10650 2450
+Wire Wire Line
+	10650 2450 7300 2450
+Wire Wire Line
+	1500 1500 1500 1400
+Wire Wire Line
+	1500 1400 1650 1400
+Connection ~ 4000 4300
+Wire Wire Line
+	4000 4400 4000 4300
+Wire Wire Line
+	1200 4600 1000 4600
+Wire Wire Line
+	3900 4800 4100 4800
+Wire Wire Line
+	6700 3300 6700 3250
+Wire Wire Line
+	7750 1900 8100 1900
+Wire Wire Line
+	1950 3650 1950 3700
+Wire Wire Line
+	1350 3300 1950 3300
+Connection ~ 5100 1900
+Wire Wire Line
+	5100 1850 5100 1900
+Wire Wire Line
+	8950 5650 8950 5800
+Wire Wire Line
+	3800 7250 3800 7200
+Wire Wire Line
+	3800 7200 3600 7200
+Connection ~ 8950 5100
+Wire Wire Line
+	9000 5000 8550 5000
+Wire Wire Line
+	7300 2450 7300 2650
+Wire Wire Line
+	5300 1900 4700 1900
+Wire Wire Line
+	4850 3900 5150 3900
+Wire Wire Line
+	5150 3900 5150 3850
+Wire Wire Line
+	5150 3850 5200 3850
+Wire Wire Line
+	8100 1400 7950 1400
+Wire Wire Line
+	8100 1200 8100 1300
+Wire Wire Line
+	8100 1100 8100 1000
+Wire Wire Line
+	9200 5100 8550 5100
+Wire Wire Line
+	8500 3500 8650 3500
+Wire Wire Line
+	8500 3300 8650 3300
+Wire Wire Line
+	6700 3250 6500 3250
+Wire Wire Line
+	6500 4050 6850 4050
+Wire Wire Line
+	6500 4450 6850 4450
+Wire Wire Line
+	5000 4550 5000 4600
+Wire Wire Line
+	5000 4550 5200 4550
+Wire Wire Line
+	5000 4350 5000 4400
+Wire Wire Line
+	5000 4350 5200 4350
+Wire Wire Line
+	4850 3800 5200 3800
+Wire Wire Line
+	5200 3800 5200 3750
+Wire Wire Line
+	5000 3550 5000 3600
+Wire Wire Line
+	5000 3550 5200 3550
+Wire Wire Line
+	4850 3400 5050 3400
+Wire Wire Line
+	5050 3400 5050 3150
+Wire Wire Line
+	5050 3150 5200 3150
+Wire Wire Line
+	2750 1900 2750 1450
+Wire Wire Line
+	3500 1400 3150 1400
+Wire Wire Line
+	3600 7000 3800 7000
+Wire Wire Line
+	1950 6600 2150 6600
+Wire Wire Line
+	1950 6800 2150 6800
+Wire Wire Line
+	1950 5950 2150 5950
+Wire Wire Line
+	1950 5750 2150 5750
+Wire Wire Line
+	3600 5650 3800 5650
+Wire Wire Line
+	3600 5850 3800 5850
+Wire Wire Line
+	6450 1450 6550 1450
+Wire Wire Line
+	6450 1750 6550 1750
+Wire Wire Line
+	5000 4600 4850 4600
+Wire Wire Line
+	5000 4400 4850 4400
+Wire Wire Line
+	5000 3600 4850 3600
+Wire Wire Line
+	1350 2900 1500 2900
+Wire Wire Line
+	1350 3000 1450 3000
+Connection ~ 2750 1700
+Connection ~ 2300 1700
+Connection ~ 2300 1400
+Connection ~ 3250 1400
+Wire Wire Line
+	1350 3200 1450 3200
+Wire Wire Line
+	1350 3100 1500 3100
+Wire Wire Line
+	4700 2000 4800 2000
+Wire Wire Line
+	4850 3300 5000 3300
+Wire Wire Line
+	4850 4300 5000 4300
+Wire Wire Line
+	4850 4500 5000 4500
+Wire Wire Line
+	6450 1650 6550 1650
+Wire Wire Line
+	6450 1550 6550 1550
+Wire Wire Line
+	3600 5950 3800 5950
+Wire Wire Line
+	3600 5750 3800 5750
+Wire Wire Line
+	1950 5650 2150 5650
+Wire Wire Line
+	1950 5850 2150 5850
+Wire Wire Line
+	1950 7200 2150 7200
+Wire Wire Line
+	1950 6900 2150 6900
+Wire Wire Line
+	1950 6700 2150 6700
+Wire Wire Line
+	3600 7100 3800 7100
+Wire Wire Line
+	3600 6900 3800 6900
+Wire Wire Line
+	2350 1150 2300 1150
+Wire Wire Line
+	2300 1150 2300 1400
+Wire Wire Line
+	5200 3050 5000 3050
+Wire Wire Line
+	5000 3050 5000 3300
+Wire Wire Line
+	5200 4250 5000 4250
+Wire Wire Line
+	5000 4250 5000 4300
+Wire Wire Line
+	5200 4450 5000 4450
+Wire Wire Line
+	5000 4450 5000 4500
+Wire Wire Line
+	6500 4550 6850 4550
+Wire Wire Line
+	6500 4150 6850 4150
+Wire Wire Line
+	6500 3150 6700 3150
+Wire Wire Line
+	8550 4900 8700 4900
+Wire Wire Line
+	8950 5800 9200 5800
+Wire Wire Line
+	8100 1000 7400 1000
+Connection ~ 7600 1000
+Wire Wire Line
+	8100 1300 7400 1300
+Connection ~ 7600 1300
+Wire Wire Line
+	8100 1500 7950 1500
+Wire Wire Line
+	7300 1800 8100 1800
+Wire Wire Line
+	5200 3650 5100 3650
+Wire Wire Line
+	5100 3650 5100 3700
+Wire Wire Line
+	5100 3700 4850 3700
+Wire Wire Line
+	5300 1300 5100 1300
+Wire Wire Line
+	7400 1300 7400 1450
+Wire Wire Line
+	8500 3400 9150 3400
+Wire Wire Line
+	9150 3400 9150 3450
+Wire Wire Line
+	1950 7000 2250 7000
+Wire Wire Line
+	8950 5150 8950 5100
+Wire Wire Line
+	8100 2450 8100 2200
+Connection ~ 8100 2300
+Wire Wire Line
+	5100 1300 5100 1350
+Wire Wire Line
+	2150 2800 1350 2800
+Connection ~ 1950 2800
+Wire Wire Line
+	1950 3300 1950 3350
+Wire Wire Line
+	2250 7000 2250 7050
+Wire Wire Line
+	3900 4300 4100 4300
+Wire Wire Line
+	1200 4500 1000 4500
+Wire Wire Line
+	1200 4300 1000 4300
+Wire Wire Line
+	4000 4700 4000 4800
+Connection ~ 4000 4800
+Wire Wire Line
+	3150 1400 3150 1150
+Wire Wire Line
+	2300 1400 1850 1400
+Wire Wire Line
+	1500 1600 1500 1700
+Wire Wire Line
+	1500 1700 3250 1700
+Wire Wire Line
+	10050 2300 10050 2450
+Connection ~ 10050 2450
+Wire Wire Line
+	10350 1900 10350 2450
+Connection ~ 10350 2450
+Wire Wire Line
+	9700 2450 9700 1900
+Connection ~ 9700 2450
+Connection ~ 9700 2100
+Wire Wire Line
+	10200 1500 9700 1500
+Wire Wire Line
+	9700 1300 10000 1300
+$Comp
+L R R6
+U 1 1 4F137F4E
+P 10050 2050
+F 0 "R6" V 10130 2050 50  0000 C CNN
+F 1 "10k" V 10050 2050 50  0000 C CNN
+	1    10050 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R7
+U 1 1 4F137F48
+P 10200 1750
+F 0 "R7" V 10280 1750 50  0000 C CNN
+F 1 "10k" V 10200 1750 50  0000 C CNN
+	1    10200 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R8
+U 1 1 4F137F3E
+P 10350 1650
+F 0 "R8" V 10430 1650 50  0000 C CNN
+F 1 "10k" V 10350 1650 50  0000 C CNN
+	1    10350 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R10
+U 1 1 4F137F29
+P 10650 1450
+F 0 "R10" V 10730 1450 50  0000 C CNN
+F 1 "10k" V 10650 1450 50  0000 C CNN
+	1    10650 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L M02PTH JP?
+U 1 1 4EE8157F
+P 1200 1600
+AR Path="/4E008D67" Ref="JP?"  Part="1" 
+AR Path="/4EE8157F" Ref="JP2"  Part="1" 
+F 0 "JP2" H 1100 1830 50  0000 L BNN
+F 1 "Power IN" H 1100 1400 50  0000 L BNN
+F 2 "SparkFun-1X02" H 1200 1750 50  0001 C CNN
+	1    1200 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODEPTH D1
+U 1 1 4EE814EE
+P 1750 1400
+F 0 "D1" H 1700 1500 50  0000 L BNN
+F 1 "DIODEPTH" H 1600 1300 50  0000 L BNN
+F 2 "SparkFun-DIODE-1N4001" H 1750 1550 50  0001 C CNN
+	1    1750 1400
+	1    0    0    -1  
+$EndComp
+Text Label 2300 1150 2    60   ~ 0
+VCC
+$Comp
+L LM7805 U1
+U 1 1 4EE80A80
+P 2750 1200
+F 0 "U1" H 2900 1004 60  0000 C CNN
+F 1 "LM7805" H 2750 1400 60  0000 C CNN
+	1    2750 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L CAPPTH C?
+U 1 1 4EE7FDB1
+P 4000 4600
+AR Path="/4E79B598" Ref="C?"  Part="1" 
+AR Path="/4EE7FDB1" Ref="C4"  Part="1" 
+F 0 "C4" H 4060 4715 50  0000 L BNN
+F 1 "0.1pF" H 4060 4515 50  0000 L BNN
+F 2 "SparkFun-CAP-PTH-SMALL" H 4000 4750 50  0001 C CNN
+	1    4000 4600
+	1    0    0    -1  
+$EndComp
+Text Label 1000 4600 2    60   ~ 0
+Dx2
+Text Label 1000 4500 2    60   ~ 0
+Adust1
+Text Label 1000 4300 2    60   ~ 0
+Ax0
+$Comp
+L GND #PWR01
+U 1 1 4EE7FC91
+P 4100 4800
+F 0 "#PWR01" H 4100 4800 30  0001 C CNN
+F 1 "GND" H 4100 4730 30  0001 C CNN
+	1    4100 4800
+	1    0    0    -1  
+$EndComp
+Text Label 1500 2900 0    60   ~ 0
+Adust1
+Text Label 4100 4300 0    60   ~ 0
+5V
+$Comp
+L ATTINY85-P IC1
+U 1 1 4EAFF2C5
+P 1400 4200
+F 0 "IC1" H 1500 4250 60  0000 C CNN
+F 1 "ATTINY85-P" H 3400 3450 60  0000 C CNN
+F 2 "DIP8" H 1500 3450 60  0001 C CNN
+	1    1400 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 4E7A6F64
+P 1950 3050
+F 0 "R1" V 2030 3050 50  0000 C CNN
+F 1 "150" V 1950 3050 50  0000 C CNN
+	1    1950 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 4E7A6F17
+P 5100 1600
+F 0 "R2" V 5180 1600 50  0000 C CNN
+F 1 "2.2k" V 5100 1600 50  0000 C CNN
+	1    5100 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R5
+U 1 1 4E79DB40
+P 8950 5400
+F 0 "R5" V 9030 5400 50  0000 C CNN
+F 1 "10k" V 8950 5400 50  0000 C CNN
+	1    8950 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 4E79D9AA
+P 3800 7250
+F 0 "#PWR02" H 3800 7250 30  0001 C CNN
+F 1 "GND" H 3800 7180 30  0001 C CNN
+	1    3800 7250
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR03
+U 1 1 4E79BEB4
+P 9000 5000
+F 0 "#PWR03" H 9000 5000 30  0001 C CNN
+F 1 "GND" H 9000 4930 30  0001 C CNN
+	1    9000 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR04
+U 1 1 4E79BEAE
+P 9150 3450
+F 0 "#PWR04" H 9150 3450 30  0001 C CNN
+F 1 "GND" H 9150 3380 30  0001 C CNN
+	1    9150 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR05
+U 1 1 4E79BE7A
+P 7300 2650
+F 0 "#PWR05" H 7300 2650 30  0001 C CNN
+F 1 "GND" H 7300 2580 30  0001 C CNN
+	1    7300 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR06
+U 1 1 4E79BE72
+P 7400 1450
+F 0 "#PWR06" H 7400 1450 30  0001 C CNN
+F 1 "GND" H 7400 1380 30  0001 C CNN
+	1    7400 1450
+	1    0    0    -1  
+$EndComp
+Text Label 8650 3500 0    60   ~ 0
+Ay0
+Text Label 7750 1900 2    60   ~ 0
+D6
+Text Label 7300 1800 2    60   ~ 0
+D5
+Text Label 4850 3900 2    60   ~ 0
+D6
+Text Label 4850 3700 2    60   ~ 0
+D4
+Text Label 7950 1500 2    60   ~ 0
+A1
+Text Label 7950 1400 2    60   ~ 0
+A0
+Text Label 7400 1000 2    60   ~ 0
+5V
+Text Label 10000 1800 0    60   ~ 0
+Ay0
+Text Label 10000 1500 0    60   ~ 0
+Ax3
+Text Label 10000 1400 0    60   ~ 0
+Ax2
+Text Label 10000 1300 0    60   ~ 0
+Ax1
+Text Label 10000 1200 0    60   ~ 0
+Ax0
+$Comp
+L CAPPTH C5
+U 1 1 4E79B598
+P 7600 1200
+F 0 "C5" H 7660 1315 50  0000 L BNN
+F 1 "0.1pF" H 7660 1115 50  0000 L BNN
+F 2 "SparkFun-CAP-PTH-SMALL" H 7600 1350 50  0001 C CNN
+	1    7600 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74VHC4052_ANALOG_MUX IC2
+U 1 1 4E79B530
+P 8900 1700
+F 0 "IC2" H 8900 1700 60  0000 C CNN
+F 1 "74VHC4052_ANALOG_MUX" H 8850 2500 60  0000 C CNN
+	1    8900 1700
+	1    0    0    -1  
+$EndComp
+Text Label 9200 5800 0    60   ~ 0
+5V
+Text Label 9200 5100 0    60   ~ 0
+D4
+$Comp
+L M03LONGPADS JP10
+U 1 1 4E758277
+P 8250 5000
+F 0 "JP10" H 8150 5230 50  0000 L BNN
+F 1 "PIR" H 8150 4700 50  0000 L BNN
+F 2 "SparkFun-1X03_LONGPADS" H 8250 5150 50  0001 C CNN
+	1    8250 5000
+	1    0    0    -1  
+$EndComp
+Text Label 8700 4900 0    60   ~ 0
+VCC
+Text Label 6700 3150 0    60   ~ 0
+5Vsd
+Text Label 8650 3300 0    60   ~ 0
+5V
+$Comp
+L M03LONGPADS JP9
+U 1 1 4E02BBF4
+P 8200 3400
+F 0 "JP9" H 8100 3630 50  0000 L BNN
+F 1 "MAXSonar" H 8100 3100 50  0000 L BNN
+F 2 "SparkFun-1X03_LONGPADS" H 8200 3550 50  0001 C CNN
+	1    8200 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L ARDUINO_PRO_MINI U2
+U 1 1 4E015F37
+P 5800 3850
+F 0 "U2" H 5800 3850 60  0000 C CNN
+F 1 "ARDUINO_PRO_MINI" H 5800 3850 60  0000 C CNN
+	1    5800 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L CAP_POLPTH2 C2
+U 1 1 4E00AFC8
+P 2300 1500
+F 0 "C2" H 2340 1525 50  0000 L BNN
+F 1 "100uf" H 2340 1335 50  0000 L BNN
+F 2 "SparkFun-CPOL-RADIAL-10UF-25V" H 2300 1650 50  0001 C CNN
+	1    2300 1500
+	1    0    0    -1  
+$EndComp
+Text Label 3800 6900 0    60   ~ 0
+A4
+Text Label 3800 7000 0    60   ~ 0
+A5
+Text Label 3800 7100 0    60   ~ 0
+5V
+$Comp
+L M04PTH JP?
+U 1 1 4E014DDE
+P 3400 7100
+AR Path="/4E008CF6" Ref="JP?"  Part="1" 
+AR Path="/4E014DDE" Ref="JP6"  Part="1" 
+F 0 "JP6" H 3200 7430 50  0000 L BNN
+F 1 "ChronoDot" H 3200 6800 50  0000 L BNN
+F 2 "SparkFun-1X04" H 3400 7250 50  0001 C CNN
+	1    3400 7100
+	1    0    0    -1  
+$EndComp
+Text Label 2150 6600 0    60   ~ 0
+D10
+Text Label 2150 6700 0    60   ~ 0
+D11
+Text Label 2150 6800 0    60   ~ 0
+D12
+Text Label 2150 6900 0    60   ~ 0
+D13
+Text Label 2150 7200 0    60   ~ 0
+5Vsd
+$Comp
+L GND #PWR07
+U 1 1 4E014C72
+P 2250 7050
+F 0 "#PWR07" H 2250 7050 30  0001 C CNN
+F 1 "GND" H 2250 6980 30  0001 C CNN
+	1    2250 7050
+	1    0    0    -1  
+$EndComp
+Text Label 2150 5650 0    60   ~ 0
+Ax3
+Text Label 2150 5750 0    60   ~ 0
+D3
+Text Label 2150 5850 0    60   ~ 0
+5V
+Text Label 3800 5850 0    60   ~ 0
+VCC
+Text Label 3800 5750 0    60   ~ 0
+Ax2
+Text Label 3800 5650 0    60   ~ 0
+5V
+$Comp
+L GND #PWR08
+U 1 1 4E014674
+P 2150 5950
+F 0 "#PWR08" H 2150 5950 30  0001 C CNN
+F 1 "GND" H 2150 5880 30  0001 C CNN
+	1    2150 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR09
+U 1 1 4E014626
+P 3800 5950
+F 0 "#PWR09" H 3800 5950 30  0001 C CNN
+F 1 "GND" H 3800 5880 30  0001 C CNN
+	1    3800 5950
+	1    0    0    -1  
+$EndComp
+Text Label 6550 1650 0    60   ~ 0
+5V
+Text Label 6550 1550 0    60   ~ 0
+RXI
+Text Label 6550 1450 0    60   ~ 0
+TXO
+$Comp
+L GND #PWR010
+U 1 1 4E00B4E5
+P 6550 1750
+F 0 "#PWR010" H 6550 1750 30  0001 C CNN
+F 1 "GND" H 6550 1680 30  0001 C CNN
+	1    6550 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L M04PTH JP8
+U 1 1 4E00B4CD
+P 6250 1650
+F 0 "JP8" H 6050 1980 50  0000 L BNN
+F 1 "XBee" H 6050 1350 50  0000 L BNN
+F 2 "SparkFun-1X04" H 6250 1800 50  0001 C CNN
+	1    6250 1650
+	1    0    0    -1  
+$EndComp
+Text Label 6850 4050 0    60   ~ 0
+A0
+Text Label 6850 4150 0    60   ~ 0
+A1
+Text Label 6850 4450 0    60   ~ 0
+A4
+Text Label 6850 4550 0    60   ~ 0
+A5
+Text Label 4850 4600 0    60   ~ 0
+D13
+Text Label 4850 4500 2    60   ~ 0
+D12
+Text Label 4850 4400 2    60   ~ 0
+D11
+Text Label 4850 4300 2    60   ~ 0
+D10
+Text Label 4850 3800 2    60   ~ 0
+D5
+Text Label 4850 3600 2    60   ~ 0
+D3
+Text Label 4850 3400 2    60   ~ 0
+RXI
+Text Label 4850 3300 2    60   ~ 0
+TXO
+Text Label 5300 1900 0    60   ~ 0
+Ax1
+Text Label 5300 1300 0    60   ~ 0
+5V
+$Comp
+L GND #PWR011
+U 1 1 4E00B24A
+P 4800 2000
+F 0 "#PWR011" H 4800 2000 30  0001 C CNN
+F 1 "GND" H 4800 1930 30  0001 C CNN
+	1    4800 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR012
+U 1 1 4E00B1D1
+P 1950 3700
+F 0 "#PWR012" H 1950 3700 30  0001 C CNN
+F 1 "GND" H 1950 3630 30  0001 C CNN
+	1    1950 3700
+	1    0    0    -1  
+$EndComp
+Text Label 1500 3100 0    60   ~ 0
+Dx2
+Text Label 2150 2800 0    60   ~ 0
+5V
+$Comp
+L GND #PWR013
+U 1 1 4E00B087
+P 1450 3000
+F 0 "#PWR013" H 1450 3000 30  0001 C CNN
+F 1 "GND" H 1450 2930 30  0001 C CNN
+	1    1450 3000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR014
+U 1 1 4E00B072
+P 1450 3200
+F 0 "#PWR014" H 1450 3200 30  0001 C CNN
+F 1 "GND" H 1450 3130 30  0001 C CNN
+	1    1450 3200
+	1    0    0    -1  
+$EndComp
+Text Label 3500 1400 0    60   ~ 0
+5V
+$Comp
+L CAP_POLPTH2 C?
+U 1 1 4E00AFD7
+P 3250 1500
+AR Path="/4E00AFC8" Ref="C?"  Part="1" 
+AR Path="/4E00AFD7" Ref="C3"  Part="1" 
+F 0 "C3" H 3290 1525 50  0000 L BNN
+F 1 "10uf" H 3290 1335 50  0000 L BNN
+F 2 "SparkFun-CPOL-RADIAL-10UF-25V" H 3250 1650 50  0001 C CNN
+	1    3250 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR015
+U 1 1 4E00AF4E
+P 2750 1900
+F 0 "#PWR015" H 2750 1900 30  0001 C CNN
+F 1 "GND" H 2750 1830 30  0001 C CNN
+	1    2750 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L M02PTH JP7
+U 1 1 4E008D67
+P 4400 2000
+F 0 "JP7" H 4300 2230 50  0000 L BNN
+F 1 "Temperature" H 4300 1800 50  0000 L BNN
+F 2 "SparkFun-1X02" H 4400 2150 50  0001 C CNN
+	1    4400 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L M04PTH JP?
+U 1 1 4E008D1A
+P 1750 5850
+AR Path="/4E008CF6" Ref="JP?"  Part="1" 
+AR Path="/4E008D1A" Ref="JP3"  Part="1" 
+F 0 "JP3" H 1550 6180 50  0000 L BNN
+F 1 "CO connector" H 1550 5550 50  0000 L BNN
+F 2 "SparkFun-1X04" H 1750 6000 50  0001 C CNN
+	1    1750 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L M04PTH JP5
+U 1 1 4E008CF6
+P 3400 5850
+F 0 "JP5" H 3200 6180 50  0000 L BNN
+F 1 "CO2 connector" H 3200 5550 50  0000 L BNN
+F 2 "SparkFun-1X04" H 3400 6000 50  0001 C CNN
+	1    3400 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L CAP_POLPTH1 C1
+U 1 1 4DF039FA
+P 1950 3450
+F 0 "C1" H 1990 3475 50  0000 L BNN
+F 1 "220uf" H 1990 3285 50  0000 L BNN
+F 2 "SparkFun-CPOL-RADIAL-100UF-25V" H 1950 3600 50  0001 C CNN
+	1    1950 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L M08LOCK JP4
+U 1 1 4DEF4F00
+P 1750 6900
+F 0 "JP4" H 1550 7430 50  0000 L BNN
+F 1 "SDbreakout" H 1550 6400 50  0000 L BNN
+F 2 "SparkFun-1X08_LOCK" H 1750 7050 50  0001 C CNN
+	1    1750 6900
+	1    0    0    -1  
+$EndComp
+$Comp
+L M06LOCK JP1
+U 1 1 4DEF4EE8
+P 1150 3100
+F 0 "JP1" H 950 3530 50  0000 L BNN
+F 1 "DustConnector" H 950 2700 50  0000 L BNN
+F 2 "SparkFun-1X06_LOCK" H 1150 3250 50  0001 C CNN
+	1    1150 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR016
+U 1 1 4DEF4739
+P 6700 3300
+F 0 "#PWR016" H 6700 3300 30  0001 C CNN
+F 1 "GND" H 6700 3230 30  0001 C CNN
+	1    6700 3300
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
