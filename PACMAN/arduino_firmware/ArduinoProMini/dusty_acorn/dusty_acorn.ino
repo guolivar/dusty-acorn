@@ -1,67 +1,62 @@
-// * Dust Sensor sampler
-// *   Using a ATTiny85 to deal with the dust sensor signal
-// *   Read on analog channel with pulseIn()
-// * Movement with PIR
-// * Distance with Maxbotix EZ4
-// * CO2 with Parallax unit
-// * CO with Parallax unit
-// * Timing controlled by Real Time Clock
-// * Save using SdFat library with Adafruit uSD board
-// * Analog deMux with 74HC4052
-// * Time managed by Chronodot using Chronodot library by Stephanieplanet
-// * In-temperature from Chronodot. Out-temperature from LM335A
-//Add the SD Library
-#include <SPI.h>
-#include <SD.h>
+/* Dusty Air Corner sensor hub
+ 20160525
+	- PMS3003 as Dust sensor 
+	- No motion sensor
+	- Distance with HC-SR04
+	- CO2 with DFRobot unit
+	- Timing controlled by Real Time Clock
+	- No data saving ... moved to host PC to log
+	- Time managed by Chronodot using Chronodot library by Stephanieplanet
+	- Temperature from LM36
+	- T&RH from DHT22
+*/
 //Add Libraries to work with the Real Time Clock
 #include <RTClib.h>
 #include <RTC_DS3231.h>
 #include <Wire.h>
 #define CLOCK_ADDRESS 0x68 // HW address for the RTC
+//Add DHT library
+#include <dht.h>
+#define DHT22_PIN 7 // Pin where the DHT22 is connected
+//PMS3003 definitions
+#define receiveDatIndex 32 // Sensor data payload size
+//Range Finder definitions
+#define RFtrg 5
+#define RFech 6
 
+//Variable declarations
+byte receiveDat[receiveDatIndex]; //receive data from the air detector module
+byte readbuffer[64];
+unsigned int checkSum,checkresult;
+unsigned int FrameLength,Data4,Data5,Data6;
+unsigned int PM1,PM25,PM10,N300,N500,N1000,N2500,N5000,N10000;
+int length;
+unsigned long timer;
+boolean valid_data,iamok;
 RTC_DS3231 RTC;
-DateTime time;
-//Control AnalogDemux
-int x9=6;
-int x10=5;
-//Dust sensor variable
-unsigned long Dust;
-//Temperature sensor variable
-unsigned long Temp, Temp_in; //Temperature
+DateTime curr_time,prev_time;
+dht DHT;
 //Distance variable 
 unsigned long Distance; //Distance
 //CO2 variable
 unsigned long CO2; //CO2 signal
-//CO constants and variables
-int COswpin=3; //CO switch pin
-unsigned long CO; //CO signal
-//variables for the CO sensor power cycle
-unsigned long currTimeCO;
-unsigned long prevTimeCO;
-unsigned long currCOPwrTimer, timer0, timer1;
-byte COPwrState,COstatus;
-//Movement constants and variables
-int PIRPin=4; //PIR input pin
-int movement;
-//General constants and variables
-unsigned long rcount;
-// Create the variables to be used by SdFat Library
-File currfile;
-// Savefile name in String and char format
-String fname;
-String currdir;
-char file_fname[20];
-char dir_dname[10];
-long fcount,dcount;
 int psec,csec;
 
-unsigned long GetDust()
-{
-  selectDUST();
-  // wait to stabilize the pin
-  delayMicroseconds(500);
-  return pulseIn(A0,HIGH);
+boolean readDust(){
+	boolean valid_data = (1==0);
+	while (Serial.peek()!=66){
+		receiveDat[0]=Serial.read();
+	}
+	Serial.readBytes((char *)receiveDat,receiveDatIndex);
+	checkSum = 0;
+	for (int i = 0;i < receiveDatIndex;i++){
+		checkSum = checkSum + receiveDat[i];
+	}
+	checkresult = receiveDat[receiveDatIndex-2]*256+receiveDat[receiveDatIndex-1]+receiveDat[receiveDatIndex-2]+receiveDat[receiveDatIndex-1];
+	valid_data = (checkSum == checkresult);
+	return valid_data;
 }
+
 unsigned long GetDistance()
 {
   unsigned long RAW=0;
