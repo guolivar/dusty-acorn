@@ -91,14 +91,14 @@ class Pacman(object):
 				p_vec = map(float,line.split())
 				if (len(p_vec)>=14):
 					indx = p_vec[0] #0
-					dust =p_vec[10] #1
-					distance = p_vec[7] #2
-					t1 = p_vec[8] #3
-					t2 = p_vec[9] #4
-					co2 = -1*p_vec[11] #5
-					co = p_vec[12] #6
-					mov = p_vec[13] #7
-					co_st = p_vec[14] #8
+					dust =p_vec[7] #1
+					distance = p_vec[18] #2
+					t1 = p_vec[19] #3
+					t2 = p_vec[20] #4
+					co2 = -1*p_vec[21] #5
+					co = p_vec[0] #6
+					mov = p_vec[0] #7
+					co_st = p_vec[0] #8
 				else:
 					print("Short data line")
 					print(p_vec)
@@ -137,13 +137,8 @@ class Pacman(object):
 			co_st=-99
 		#PACMAN controlled activities
 		# Deactivate screensaver with movement
-		if (1>=1):
+		if (distance>0):
 			os.system("xscreensaver-command -deactivate &") ##If there is movement ... deactivate the screensaver
-		# Activate screensaver when there is little movement (50% or less in the last minute)
-		self.movlist = [mov] + self.movlist[:-1]
-		activity = sum(self.movlist)/len(self.movlist)
-		if (1 < 0.5):
-			os.system("xscreensaver-command -activate &") ##If there is little movement ... activate the screensaver
 		# Update the frame of data for scale
 		self.frameCO2 = [co2] + self.frameCO2[:-1]
 		self.frameDUST = [dust] + self.frameDUST[:-1]
