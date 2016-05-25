@@ -43,7 +43,6 @@ unsigned long CO2; //CO2 signal
 int psec,csec;
 
 boolean readDust(){
-	boolean valid_data = (1==0);
 	while (Serial.peek()!=66){
 		receiveDat[0]=Serial.read();
 	}
@@ -59,6 +58,11 @@ boolean readDust(){
 
 unsigned long GetDistance()
 {
+	
+	
+	
+	#define RFtrg 5
+#define RFech 6
   unsigned long RAW=0;
   selectRF();
   for (int ii=1;ii<=50;ii++){
