@@ -1,32 +1,26 @@
 /* Dusty Air Corner sensor hub
  20160525
-	- PMS3003 as Dust sensor 
+	- PMS3003 as Dust sensor on Software Serial port
 	- No motion sensor
 	- Distance with HC-SR04
 	- CO2 with DFRobot unit
 	- Timing controlled by Real Time Clock
 	- No data saving ... moved to host PC to log
 	- Time managed by Chronodot using Chronodot library by Stephanieplanet
-	- Temperature from LM36
 	- T&RH from DHT22
 */
-//Add Libraries to work with the Real Time Clock
-#include <RTClib.h>
-#include <RTC_DS3231.h>
-#include <Wire.h>
-#define CLOCK_ADDRESS 0x68 // HW address for the RTC
 //Add DHT library
-#include <DHT.h>
+#include <dht.h>
 #define DHT22_PIN 7 // Pin where the DHT22 is connected
 //Ultrasonic range finder
 #include <NewPing.h>
 #define TRIGGER_PIN 5
 #define ECHO_PIN 6
-#define MAX_DISTANCE 100
+#define MAX_DISTANCE 200
 //PMS3003 definitions
-#define receiveDatIndex 32 // Sensor data payload size
+#include <SoftwareSerial.h>
+#define receiveDatIndex 24 // Sensor data payload size
 //Analog channels definitions
-#define TempPin 2
 #define CO2Pin 0
 
 //Variable declarations
@@ -36,22 +30,20 @@ unsigned int checkSum,checkresult;
 unsigned int FrameLength,Data4,Data5,Data6;
 unsigned int PM1,PM25,PM10,N300,N500,N1000,N2500,N5000,N10000;
 unsigned int timer1,timer0;
-int Temp,CO2;
 boolean valid_data;
-RTC_DS3231 RTC;
-DateTime time;
 dht DHT;
 NewPing sonar(TRIGGER_PIN,ECHO_PIN,MAX_DISTANCE);
+SoftwareSerial dustport(10,11);
 //Distance variable 
 unsigned int Distance; //Distance
 //CO2 variable
 unsigned int CO2; //CO2 signal
 
 boolean readDust(){
-	while (Serial.peek()!=66){
-		receiveDat[0]=Serial.read();
+	while (dustport.peek()!=66){
+		receiveDat[0]=dustport.read();
 	}
-	Serial.readBytes((char *)receiveDat,receiveDatIndex);
+	dustport.readBytes((char *)receiveDat,receiveDatIndex);
 	checkSum = 0;
 	for (int i = 0;i < receiveDatIndex;i++){
 		checkSum = checkSum + receiveDat[i];
@@ -61,33 +53,15 @@ boolean readDust(){
 	return valid_data;
 }
 
-int GetTemperature() {
-	int dump = analogRead(TempPin);
-	delay(10);
-	dump = analogRead(TempPin);
-	return dump;
-}
 int GetCO2() {
 	int dump = analogRead(CO2Pin);
 	delay(10);
 	dump = analogRead(CO2Pin);
 	return dump;
 }
-void SendData(DateTime xtime) {
-	Serial.print(xtime.year());
-	Serial.print("\t");
-	Serial.print(xtime.month());
-	Serial.print("\t");
-	Serial.print(xtime.day());
-	Serial.print("\t");
-	Serial.print(xtime.hour());
-	Serial.print("\t");
-	Serial.print(xtime.minute());
-	Serial.print("\t");
-	Serial.print(xtime.second());
-	Serial.print("\t");
+void SendData() {
 	//Dust from Dust sensor
-	while (!GetDust()){
+	while (!readDust()){
 		delay(10);
 	}
 	PM1 = (receiveDat[4]*256)+receiveDat[5];
@@ -117,24 +91,11 @@ void SendData(DateTime xtime) {
 	N1000 = (receiveDat[20]*256)+receiveDat[21];
 	Serial.print(N1000);
 	Serial.print("\t");
-	N2500 = (receiveDat[22]*256)+receiveDat[23];
-	Serial.print(N2500);
-	Serial.print("\t");
-	N5000 = (receiveDat[24]*256)+receiveDat[25];
-	Serial.print(N5000);
-	Serial.print("\t");
-	N10000 = (receiveDat[26]*256)+receiveDat[27];
-	Serial.print(N10000);
-	Serial.print("\t");
 	//Distance from Range Finder
-	Distance=GetDistance();
+	Distance=sonar.ping_cm();
 	Serial.print(Distance);
 	Serial.print("\t");
 	//Serial.println("Distance Done");
-	//Temperature from analog
-	Temp=GetTemperature();
-	Serial.print(Temp);
-	Serial.print("\t");
 	//Temperature and RH from DHT22
 	Serial.print(DHT.temperature);
 	Serial.print("\t");
@@ -147,19 +108,9 @@ void SendData(DateTime xtime) {
 
 void setup(){
 	//Set up serial comms
-	Serial.begin(9600);
-	//Set up RTC
-	Wire.begin();
-	RTC.begin();   // the function to get the time from the RTC
-	if (! RTC.isrunning()) {
-		Serial.println(F("RTC is NOT running! Setting time to compile time"));
-		// following line sets the RTC to the date & time this sketch was compiled
-		RTC.adjust(DateTime(__DATE__, __TIME__));
-	}
-	else {
-		Serial.println(F("RTC running OK"));
-	}
-	time=RTC.now();
+	Serial.begin(57600);
+	//Setup Dust sensor port
+	dustport.begin(9600);
 	//Set the analog read pin modes
 	pinMode(A0,INPUT);
 	pinMode(A1,INPUT);
@@ -171,11 +122,10 @@ void setup(){
 }
 void loop(){
 	timer1 = millis();
-	time=RTC.now();
 	if  ((timer1 - timer0) > 1000) {
 		timer0 = timer1;
-		SendData(time);
-		Serial.readBytes((char *)readbuffer,64);
-
+		SendData();
+		if (dustport.available())
+			Serial.readBytes((char *)readbuffer,64);
 	}
 }

@@ -93,18 +93,15 @@ $(function() { // only when the page has loaded and jQuery is ready
 			if (key == 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][2]);
-				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('distance', data[key][3]);
+				setValue('pm1', data[key][0]);
+				setValue('temperature_1', data[key][4]);
+				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
-				setValue('co', data[key][6]);
-				setValue('co2', data[key][5]);
-				setValue('co_status', data[key][8]);
-				setValue('movement', data[key][7]);
+				setValue('co2', data[key][6]);
 
 				updateParticles(data[key][1]);
-				if (data[key][1]>=data[key][12]) {
+				if (data[key][1]>=data[key][10]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}

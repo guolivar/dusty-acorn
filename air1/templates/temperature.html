@@ -19,7 +19,7 @@
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>Temperature</h1>
-						<div id="temperature_widget" style="background-color: #0000ff"></div>
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
 	</ul>
@@ -114,7 +114,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], data[key][13], data[key][14], '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], data[key][13], data[key][14], '#ff0000');
 				if (data[key][4]>=data[key][14]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");

@@ -16,10 +16,14 @@
 		</center>
 		<div class="gridster">
 			<ul>
-				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>Humidity</h1>
+						<div id="rh_widget" style="background-color: #0000ff"></div>
+					</div>
 					<div class="widget_bar">
 						<h1>Temperature</h1>
-						<div id="temperature_widget" style="background-color: #0000ff"></div>
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
@@ -122,39 +126,38 @@ $(function() { // only when the page has loaded and jQuery is ready
 			if (key == 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][2]);
-				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('distance', data[key][3]);
+				setValue('pm1', data[key][0]);
+				setValue('temperature_1', data[key][4]);
+				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
-				setValue('co', data[key][6]);
-				setValue('co2', data[key][5]);
-				setValue('co_status', data[key][8]);
-				setValue('movement', data[key][7]);
+				setValue('co2', data[key][6]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], data[key][13], data[key][14], '#0000ff');
-				setProgressBarHeight("dust_widget", data[key][1], data[key][11], data[key][12], '#008000');
-				setProgressBarHeight("co2_widget", data[key][5], data[key][9],data[key][10], '#800080');
-				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
-				if (data[key][2] < 30 && data[key][2] > 0) {
+				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
+				setProgressBarHeight("dust_widget", data[key][1], 0, 100, '#008000');
+				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
+				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#ffa500');
+
+				if (data[key][3] < 30 && data[key][3] > 0) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 45) {
+				} else 	if (data[key][3] < 45) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/D.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 60) {
+				} else 	if (data[key][3] < 60) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/E.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 75) {
+				} else 	if (data[key][3] < 75) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/F.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 90) {
+				} else 	if (data[key][3] < 90) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/G.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 105) {
+				} else 	if (data[key][3] < 105) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/A.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 120) {
+				} else 	if (data[key][3] < 120) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/B.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				} else {

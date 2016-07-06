@@ -18,8 +18,8 @@
 			<ul>
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>CO2</h1>
-						<div id="co2_widget" style="background-color: #800080"></div>
+						<h1>Temperature</h1>
+						<div id="rh_widget" style="background-color: #0000ff"></div>
 					</div>
 				</li>
 	</ul>
@@ -110,9 +110,9 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-				
-				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
-				if (data[key][6]>=data[key][8]) {
+
+				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
+				if (data[key][4]>=data[key][12]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}

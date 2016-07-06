@@ -1,3 +1,8 @@
+# Routine to parse the data line received from the sensors
+# 20160705
+#	Changed the format of the data from the sensor.
+#	New dust sensor with more data and re-ordered the data channels
+
 from random import randint
 import serial # Serial communications
 import os #OS calls to control the screensaver and play sounds
@@ -38,12 +43,14 @@ class Pacman(object):
 		# Initialise the activity counter
 		self.movlist = [0] * 60
 		# Initialise the frames for scaling Output
+		self.framePM1 = [0] * 60
+		self.framePM10 = [0] * 60
 		self.frameCO2 = [0] * 60
 		self.frameDUST = [0] * 60
 		self.frameTEMP = [10] * 60
 		# Initialise max/min for scaling Output
 		self.frameCO2 = [-2500] + self.frameCO2[:-1]
-		self.frameDUST = [3000] + self.frameDUST[:-1]
+		self.frameDUST = [300] + self.frameDUST[:-1]
 		self.frameTEMP = [30] + self.frameTEMP[:-1]
 		# Initialise the max/min for scales
 		self.maxCO2 = max(self.frameCO2)
@@ -52,12 +59,6 @@ class Pacman(object):
 		self.minDUST = min(self.frameDUST)
 		self.maxTEMP = max(self.frameTEMP)
 		self.minTEMP = min(self.frameTEMP)
-
-		# Initialise the CO handling containers
-		self.entry = self.parse_line("a")
-		self.rawentry = self.entry
-		self.prev_entry = self.entry
-		self.prev_rawentry = self.entry
 
 	def read_data(self):
 		""" Reads data from pacman """
@@ -70,81 +71,77 @@ class Pacman(object):
 			idx = randint(start, end)
 			line = self.lines[idx]
 		self.entry = self.parse_line(line)
-		# TODO deal with CO data ... the code below throws errors
-		#print(self.entry)
-		#self.entry = self.rawentry
-		#print(self.entry)
-		#print(self.prev_entry)
-		#if (self.entry[8]==1) & (self.prev_entry[8]==2):
-			#self.entry = self.entry[0:5] + (self.prev_rawentry[6],) + self.entry[7:8]
-		#else:
-			#self.entry = self.entry[0:5] + (self.prev_entry[6],) + self.entry[7:8]
-		#self.prev_rawentry = self.rawentry
-		#self.prev_entry = self.entry
 		print(self.entry)
 		return self.entry
 
 	def parse_line(self, line):
 		#Get the measurements
+		#Data line is:
+		#PM1
+		#PM2.5
+		#PM10
+		#TSIPM1
+		#TSIPM2.5
+		#TSIPM10
+		#Data7
+		#Data8
+		#Data9
+		#Distance
+		#Temperature
+		#RH
+		#CO2
+		err_value = -99
 		if len(line) >0:
 			if (line[0].isdigit()):
 				p_vec = map(float,line.split())
 				if (len(p_vec)>=14):
-					indx = p_vec[0] #0
-					dust =p_vec[7] #1
-					distance = p_vec[18] #2
-					t1 = p_vec[19] #3
-					t2 = p_vec[20] #4
-					co2 = -1*p_vec[21] #5
-					co = p_vec[0] #6
-					mov = p_vec[0] #7
-					co_st = p_vec[0] #8
+					pm1 = p_vec[0] #0
+					dust =p_vec[1] #1
+					pm10 = p_vec[2] #2
+					distance = p_vec[9] #3
+					t1 = p_vec[10] #4
+					rh = p_vec[11] #5
+					co2 = -1*p_vec[12] #6
 				else:
 					print("Short data line")
 					print(p_vec)
-					indx=-99
-					dust=-99
-					distance=-99
-					t1=-99
-					t2=-99
-					co2=-99
-					co=-99
-					mov=-99
-					co_st=-99
+					pm1 = err_value #0
+					dust = err_value #1
+					pm10 = err_value #2
+					distance = err_value #3
+					t1 = err_value #4
+					rh = err_value #5
+					co2 = err_value #6
 			else:
 				print("Non numeric first character")
 				print(line)
-				indx=-99
-				dust=-99
-				distance=-99
-				t1=-99
-				t2=-99
-				co2=-99
-				co=-99
-				mov=-99
-				co_st=-99
+				pm1 = err_value #0
+				dust = err_value #1
+				pm10 = err_value #2
+				distance = err_value #3
+				t1 = err_value #4
+				rh = err_value #5
+				co2 = err_value #6
 		else:
 			print("Line too short")
 			print(line)
-			indx=-99
-			dust=-99
-			distance=-99
-			t1=-99
-			t2=-99
-			co2=-99
-			co=-99
-			mov=-99
-			co_st=-99
+			pm1 = err_value #0
+			dust = err_value #1
+			pm10 = err_value #2
+			distance = err_value #3
+			t1 = err_value #4
+			rh = err_value #5
+			co2 = err_value #6
 		#PACMAN controlled activities
-		# Deactivate screensaver with movement
-		if (distance>0):
-			os.system("xscreensaver-command -deactivate &") ##If there is movement ... deactivate the screensaver
+		# Deactivate screensaver when something is close by (1.5m)
+		if (distance<150):
+			os.system("xscreensaver-command -deactivate &") #If something is close by... deactivate the screensaver
 		# Update the frame of data for scale
 		self.frameCO2 = [co2] + self.frameCO2[:-1]
 		self.frameDUST = [dust] + self.frameDUST[:-1]
 		self.frameTEMP = [t1] + self.frameTEMP[:-1]
 		# Calculate the max/min for each stream only for valid data lines
-		if (indx>0):
+		if (pm10>0):
 			self.maxCO2 = max(self.frameCO2)
 			self.minCO2 = min(self.frameCO2)
 			self.maxDUST = max(self.frameDUST)
@@ -153,5 +150,5 @@ class Pacman(object):
 			self.minTEMP = min(self.frameTEMP)
 		# C D E F G A B
 		print(distance)
-		#         0    1       2       3   4   5    6   7         8       9      10       11       12      13       14
-		return (indx, dust, distance, t1, t1, co2, co, activity, co_st, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)
+		#         0    1    2       3      4   5    6        7            8            9           10            11            12
+		return (pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)
