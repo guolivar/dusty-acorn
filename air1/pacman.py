@@ -94,7 +94,7 @@ class Pacman(object):
 		if len(line) >0:
 			if (line[0].isdigit()):
 				p_vec = map(float,line.split())
-				if (len(p_vec)>=14):
+				if (len(p_vec)>=13):
 					pm1 = p_vec[0] #0
 					dust =p_vec[1] #1
 					pm10 = p_vec[2] #2

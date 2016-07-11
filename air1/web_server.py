@@ -37,6 +37,13 @@ class IndexHandler(WebHandler):
     def get(self):
         self.render("index.html", app_name='Air 1')
 
+# /index.html
+class IndexHandler2(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("index2.html", app_name='Air 1')
+
+
 # /grid.html
 class GridHandler(WebHandler):
     @tornado.web.asynchronous
@@ -110,7 +117,7 @@ def main():
     # here we define the routes that the web app handles
     app = tornado.web.Application(
         handlers = [
-            (r"/", IndexHandler),
+            (r"/", IndexHandler2),
             (r"/index.html", IndexHandler), 
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),  
