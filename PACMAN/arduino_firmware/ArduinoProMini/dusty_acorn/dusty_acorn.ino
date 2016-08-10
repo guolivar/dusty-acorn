@@ -4,9 +4,7 @@
 	- No motion sensor
 	- Distance with HC-SR04
 	- CO2 with DFRobot unit
-	- Timing controlled by Real Time Clock
 	- No data saving ... moved to host PC to log
-	- Time managed by Chronodot using Chronodot library by Stephanieplanet
 	- T&RH from DHT22
 */
 //Add DHT library
@@ -33,6 +31,7 @@ unsigned int timer1,timer0;
 boolean valid_data;
 dht DHT;
 NewPing sonar(TRIGGER_PIN,ECHO_PIN,MAX_DISTANCE);
+//SoftwareSerial rxPIN, txPIN
 SoftwareSerial dustport(10,11);
 //Distance variable 
 unsigned int Distance; //Distance
