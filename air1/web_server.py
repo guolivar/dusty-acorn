@@ -73,7 +73,15 @@ class TempHandler(WebHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render("temperature.html", app_name='Air 1')
-
+class TempQHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("temperature_qual.html", app_name='Air 1')
+# /RH.html
+class RhHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("rh.html", app_name='Air 1')
 # /co2.html
 class CO2Handler(WebHandler):
     @tornado.web.asynchronous
@@ -126,6 +134,8 @@ def main():
             (r"/distance.html", DistanceHandler),
             (r"/dust.html", DustHandler),
             (r"/temperature.html", TempHandler),
+            (r"/temperature_qual.html", TempQHandler),
+            (r"/rh.html", RhHandler),
             (r"/co2.html", CO2Handler),
             (r"/ws", MetricsHandler)
             ],

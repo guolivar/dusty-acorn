@@ -10,20 +10,10 @@
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
 		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
+	<body style="background-color: white; margin: 0;">
 		<center>
-			<div><img id="mjpeg_dest" /></div>
+			<div><img src="{{ static_url('images/0101-sun-smile-glasses-icon_128.png') }}" id="temperature_image" /></div>
 		</center>
-		<div class="gridster">
-			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Humidity</h1>
-						<div id="rh_widget" style="background-color: #0000ff"></div>
-					</div>
-				</li>
-	</ul>
-		</div>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -98,21 +88,34 @@ $(function() { // only when the page has loaded and jQuery is ready
     		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
        	}
     };
-
+    
+    var setTemperatureImage = function(id, value) {
+    	var coldThreshold = 25;
+    	var element = document.getElementById(id);
+    	if (undefined !== element && null !== element) {
+    		if (value < coldThreshold) {
+    			element.setAttribute('src', '{{ static_url("images/cold.png") }}');
+    		} else {
+    			element.setAttribute('src', '{{ static_url("images/hot.png") }}');
+    		}
+    	}
+    };
+    
     var onHeartbeat = function(data) {
       	for (key in data) {
 			if (key == 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][3]);
-				setValue('pm1', data[key][0]);
+				setValue('distance', data[key][2]);
+				setValue('record_number', data[key][0]);
 				setValue('temperature_1', data[key][4]);
-				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
-				setValue('co2', data[key][6]);
-
-				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
-				if (data[key][4]>=data[key][12]) {
+				setValue('co', data[key][6]);
+				setValue('co2', data[key][5]);
+				setValue('co_status', data[key][8]);
+				setValue('movement', data[key][7]);
+				setTemperatureImage('temperature_image', data[key][4]);
+				if (data[key][4]>=25) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}
@@ -129,20 +132,6 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
-    // For the camera
-	var mjpeg_img;
-	function reload_img () {
-		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
-	}
-	function error_img () {
-		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
-	}
-	function init() {
-		mjpeg_img = document.getElementById("mjpeg_dest");
-		mjpeg_img.onload = reload_img;
-		mjpeg_img.onerror = error_img;
-		reload_img();
-	}
 
 // Handling actions in the UI
 //     $('#my_button').click(function() {
