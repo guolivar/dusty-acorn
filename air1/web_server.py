@@ -37,7 +37,7 @@ class IndexHandler(WebHandler):
     def get(self):
         self.render("index.html", app_name='Air 1')
 
-# /index.html
+# /index2.html
 class IndexHandler2(WebHandler):
     @tornado.web.asynchronous
     def get(self):
@@ -83,6 +83,8 @@ class CO2Handler(WebHandler):
 # websockets
 clients = []
 class MetricsHandler(WebSocketHandler):
+    def check_origin(self, origin):
+        return True
 
     def open(self, *args):
         print('New connection!')
@@ -117,7 +119,7 @@ def main():
     # here we define the routes that the web app handles
     app = tornado.web.Application(
         handlers = [
-            (r"/", IndexHandler2),
+            (r"/index2.html", IndexHandler2),
             (r"/index.html", IndexHandler), 
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),  

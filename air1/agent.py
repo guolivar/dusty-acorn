@@ -93,7 +93,6 @@ class Agent(Thread):
         metrics['time'] = datetime.datetime.now().strftime('%H:%M:%S')
         pacman_data = self.pacman.read_data()
         metrics['pacman_data'] = pacman_data
-        print(pacman_data)
  
         return metrics
 

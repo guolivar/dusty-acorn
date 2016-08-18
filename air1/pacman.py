@@ -71,7 +71,7 @@ class Pacman(object):
 			idx = randint(start, end)
 			line = self.lines[idx]
 		self.entry = self.parse_line(line)
-		print(self.entry)
+		#print(self.entry)
 		return self.entry
 
 	def parse_line(self, line):
@@ -149,6 +149,6 @@ class Pacman(object):
 			self.maxTEMP = max(self.frameTEMP)
 			self.minTEMP = min(self.frameTEMP)
 		# C D E F G A B
-		print(distance)
+		#print(distance)
 		#         0    1    2       3      4   5    6        7            8            9           10            11            12
 		return (pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)
