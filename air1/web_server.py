@@ -37,7 +37,7 @@ class IndexHandler(WebHandler):
     def get(self):
         self.render("index.html", app_name='Air 1')
 
-# /index.html
+# /index2.html
 class IndexHandler2(WebHandler):
     @tornado.web.asynchronous
     def get(self):
@@ -73,7 +73,15 @@ class TempHandler(WebHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render("temperature.html", app_name='Air 1')
-
+class TempQHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("temperature_qual.html", app_name='Air 1')
+# /RH.html
+class RhHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("rh.html", app_name='Air 1')
 # /co2.html
 class CO2Handler(WebHandler):
     @tornado.web.asynchronous
@@ -83,6 +91,8 @@ class CO2Handler(WebHandler):
 # websockets
 clients = []
 class MetricsHandler(WebSocketHandler):
+    def check_origin(self, origin):
+        return True
 
     def open(self, *args):
         print('New connection!')
@@ -117,13 +127,15 @@ def main():
     # here we define the routes that the web app handles
     app = tornado.web.Application(
         handlers = [
-            (r"/", IndexHandler2),
+            (r"/index2.html", IndexHandler2),
             (r"/index.html", IndexHandler), 
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),  
             (r"/distance.html", DistanceHandler),
             (r"/dust.html", DustHandler),
             (r"/temperature.html", TempHandler),
+            (r"/temperature_qual.html", TempQHandler),
+            (r"/rh.html", RhHandler),
             (r"/co2.html", CO2Handler),
             (r"/ws", MetricsHandler)
             ],
