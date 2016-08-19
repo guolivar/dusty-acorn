@@ -11,7 +11,7 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 133)
+    (start_pass_no 8)
     (layer_rule F.Cu
       (active on)
       (preferred_direction vertical)
@@ -63,8 +63,8 @@
     )
   )
   (class "kicad_default"
-    "Net-(??1-PadA5)" /A0 /D5 /D6 /D7 /D10 GND /TX0
-    +5V
+    /A0 /D5 /D6 /D7 /D10 GND /TX0 +5V
+    "Net-(MC1-PadRXI)"
     (clearance_class "kicad_default")
     (via_rule kicad_default)
     (rule

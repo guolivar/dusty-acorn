@@ -30,8 +30,6 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:gus_work
-LIBS:Halley
-LIBS:adafruit
 LIBS:PACMAN-cache
 EELAYER 25 0
 EELAYER END
@@ -48,12 +46,12 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L ARDUINO_PRO_MINI ??1
+L ARDUINO_PRO_MINI MC1
 U 1 1 57731415
 P 4700 3300
-F 0 "??1" H 4700 3300 60  0000 C CNN
+F 0 "MC1" H 4700 3300 60  0000 C CNN
 F 1 "ARDUINO_PRO_MINI" H 4700 3300 60  0000 C CNN
-F 2 "arduino_pro_mini_V2:Halley-ARDUINO_PRO_MINI" H 4700 3300 60  0001 C CNN
+F 2 "arduino:Halley-ARDUINO_PRO_MINI" H 4700 3300 60  0001 C CNN
 F 3 "" H 4700 3300 60  0000 C CNN
 	1    4700 3300
 	1    0    0    -1  
@@ -64,7 +62,7 @@ U 1 1 577316C5
 P 1700 1900
 F 0 "P1" H 1700 2950 50  0000 C CNN
 F 1 "RPi connector" V 1700 1900 50  0000 C CNN
-F 2 "headers:Pin_Header_Straight_2x20_SMD" H 1700 950 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x20" H 1700 950 50  0001 C CNN
 F 3 "" H 1700 950 50  0000 C CNN
 	1    1700 1900
 	1    0    0    -1  
@@ -75,7 +73,7 @@ U 1 1 57A9D4B3
 P 8950 3450
 F 0 "P5" H 8950 3900 50  0000 C CNN
 F 1 "PMS3003" V 9050 3450 50  0000 C CNN
-F 2 "Connectors_Molex:Connector_Molex_PicoBlade_53261-0871" H 8950 3450 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x08" H 8950 3450 50  0001 C CNN
 F 3 "" H 8950 3450 50  0000 C CNN
 	1    8950 3450
 	1    0    0    -1  

@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Halley)(type Legacy)(uri "/home/gustavo/Documents/Instruments/Dev/ODIN/ODIN PCB/Halley lib/Halley.mod")(options "")(descr ""))
+)
