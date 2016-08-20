@@ -91,11 +91,12 @@ void SendData() {
 	Serial.print(N1000);
 	Serial.print("\t");
 	//Distance from Range Finder
-	Distance=sonar.ping_cm();
+	Distance=(sonar.ping_median(5)/US_ROUNDTRIP_CM);
 	Serial.print(Distance);
 	Serial.print("\t");
 	//Serial.println("Distance Done");
 	//Temperature and RH from DHT22
+        int chk = DHT.read22(DHT22_PIN);
 	Serial.print(DHT.temperature);
 	Serial.print("\t");
 	Serial.print(DHT.humidity);
@@ -121,10 +122,10 @@ void setup(){
 }
 void loop(){
 	timer1 = millis();
-	if  ((timer1 - timer0) > 1000) {
-		timer0 = timer1;
+//	if  ((timer1 - timer0) > 1000) {
+//		timer0 = timer1;
 		SendData();
 		if (dustport.available())
 			Serial.readBytes((char *)readbuffer,64);
-	}
+//	}
 }
