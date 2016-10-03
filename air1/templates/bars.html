@@ -18,29 +18,29 @@
 			<ul>
 				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Humidity</h1>
+<!-- 						<h1>Humidity</h1> -->
 						<div id="rh_widget" style="background-color: #0000ff"></div>
 					</div>
 					<div class="widget_bar">
-						<h1>Temperature</h1>
+<!-- 						<h1>Temperature</h1> -->
 						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Dust</h1>
+<!-- 						<h1>Dust</h1> -->
 						<div id="dust_widget" style="background-color: #008000"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>CO2</h1>
+<!-- 						<h1>CO2</h1> -->
 						<div id="co2_widget" style="background-color: #800080"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Distance</h1>
+<!-- 						<h1>Distance</h1> -->
 						<div id="distance_widget" style="background-color: #ffa500"></div>
 					</div>
 				</li>
@@ -60,7 +60,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
 		widget_margins: [5, 5],
-		widget_base_dimensions: [400, 1000],
+		widget_base_dimensions: [340, 768],
 		max_cols: 4
 	});
 
@@ -128,6 +128,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 			} else if (key == 'pacman_data') {
 				setValue('distance', data[key][3]);
 				setValue('pm1', data[key][0]);
+				setValue('pm10', data[key][2]);
 				setValue('temperature_1', data[key][4]);
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
@@ -135,7 +136,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
 				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
-				setProgressBarHeight("dust_widget", data[key][1], 0, 100, '#008000');
+				setProgressBarHeight("dust_widget", data[key][2], 0, 100, '#008000');
 				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
 				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#ffa500');
 

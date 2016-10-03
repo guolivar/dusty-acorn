@@ -87,6 +87,11 @@ class CO2Handler(WebHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render("co2.html", app_name='Air 1')
+# /co2_rel.html
+class CO2qualHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("co2_qual.html", app_name='Air 1')
 
 # websockets
 clients = []
@@ -137,6 +142,7 @@ def main():
             (r"/temperature_qual.html", TempQHandler),
             (r"/rh.html", RhHandler),
             (r"/co2.html", CO2Handler),
+            (r"/co2_qual.html", CO2qualHandler),
             (r"/ws", MetricsHandler)
             ],
         cookie_secret="__air_1__",

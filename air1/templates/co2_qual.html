@@ -10,20 +10,10 @@
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
 		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img id="mjpeg_dest" /></div>
-		</center>
-		<div class="gridster">
-			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>CO2</h1>
-						<div id="co2_widget" style="background-color: #800080"></div>
-					</div>
-				</li>
-	</ul>
-		</div>
+	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
+	<center>
+		<div><img src="{{ static_url('images/co2.png') }}" id="co2_widget" /></div>
+        </center>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -83,11 +73,12 @@ $(function() { // only when the page has loaded and jQuery is ready
 		});
     };
 
-    var setProgressBarHeight = function(id, value, min, max, color) {
+    var setCO2Element = function(id, value) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
-    		var inputLow = min;
-    		var inputHigh = max;
+    		// TODO: remove duplication; see setTemperatureThermometer
+    		var inputLow = -500;
+    		var inputHigh = 0;
 
     		var outputLow = 0;
     		var outputHigh = 100;
@@ -95,8 +86,9 @@ $(function() { // only when the page has loaded and jQuery is ready
     		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
     		var rounded = Number(result).toFixed(2);
 
-    		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
-       	}
+
+    		element.setAttribute('style','width: '+rounded+'%; height: '+rounded+'%;');
+    	}
     };
 
     var onHeartbeat = function(data) {
@@ -110,8 +102,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-				
-				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
+				setCO2Element("co2_widget", data[key][6]);
 				if (data[key][6]>=data[key][8]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
@@ -129,20 +120,6 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
-    // For the camera
-	var mjpeg_img;
-	function reload_img () {
-		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
-	}
-	function error_img () {
-		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
-	}
-	function init() {
-		mjpeg_img = document.getElementById("mjpeg_dest");
-		mjpeg_img.onload = reload_img;
-		mjpeg_img.onerror = error_img;
-		reload_img();
-	}
 
 // Handling actions in the UI
 //     $('#my_button').click(function() {

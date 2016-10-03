@@ -134,11 +134,11 @@ class Pacman(object):
 			co2 = err_value #6
 		#PACMAN controlled activities
 		# Deactivate screensaver when something is close by (1.5m)
-		if (distance<150):
-			os.system("xscreensaver-command -deactivate &") #If something is close by... deactivate the screensaver
+		#if (distance<150):
+			#os.system("xscreensaver-command -deactivate &") #If something is close by... deactivate the screensaver
 		# Update the frame of data for scale
 		self.frameCO2 = [co2] + self.frameCO2[:-1]
-		self.frameDUST = [dust] + self.frameDUST[:-1]
+		self.frameDUST = [pm10] + self.frameDUST[:-1]
 		self.frameTEMP = [t1] + self.frameTEMP[:-1]
 		# Calculate the max/min for each stream only for valid data lines
 		if (pm10>0):
@@ -149,6 +149,7 @@ class Pacman(object):
 			self.maxTEMP = max(self.frameTEMP)
 			self.minTEMP = min(self.frameTEMP)
 		# C D E F G A B
-		#print(distance)
+		#print(co2)
 		#         0    1    2       3      4   5    6        7            8            9           10            11            12
+		print(pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)
 		return (pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP, self.maxTEMP)
