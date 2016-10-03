@@ -10,20 +10,10 @@
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
 		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
+	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
 		<center>
-			<div><img id="mjpeg_dest" /></div>
+			<div><img src="{{ static_url('images/RangitotoIsland1.jpg') }}" id="rhimage" height="100%" /></div>
 		</center>
-		<div class="gridster">
-			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Humidity</h1>
-						<div id="rh_widget" style="background-color: #0000ff"></div>
-					</div>
-				</li>
-	</ul>
-		</div>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -82,23 +72,22 @@ $(function() { // only when the page has loaded and jQuery is ready
 			entry.innerHTML = value;
 		});
     };
-
-    var setProgressBarHeight = function(id, value, min, max, color) {
+var setRHElement = function(id, value) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
-    		var inputLow = min;
-    		var inputHigh = max;
+    		var inputLow = 0;
+    		var inputHigh = 50;
 
     		var outputLow = 0;
-    		var outputHigh = 100;
+    		var outputHigh = 10;
 
     		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
     		var rounded = Number(result).toFixed(2);
+    		var opac = 10*(10-rounded);
 
-    		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
-       	}
+    		element.setAttribute('style', '-webkit-filter: blur(' + rounded + 'px) opacity(' + opac + '%)');
+    	}
     };
-
     var onHeartbeat = function(data) {
       	for (key in data) {
 			if (key == 'time') {
@@ -111,7 +100,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
 
-				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
+				setRHElement("rhimage", data[key][5]);
 				if (data[key][4]>=data[key][12]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
@@ -129,35 +118,6 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
-    // For the camera
-	var mjpeg_img;
-	function reload_img () {
-		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
-	}
-	function error_img () {
-		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
-	}
-	function init() {
-		mjpeg_img = document.getElementById("mjpeg_dest");
-		mjpeg_img.onload = reload_img;
-		mjpeg_img.onerror = error_img;
-		reload_img();
-	}
-
-// Handling actions in the UI
-//     $('#my_button').click(function() {
-//     	var $button = $(this);
-// //    	$button.attr('disabled','disabled');
-//     	if (socket) {
-// 	    	var message = {
-// 	    		'type': "my_button"
-// 	    	};
-// 	    	var payload = JSON.stringify(message);
-// 	    	socket.send(payload);
-// 	    	$button.attr('enabled','');
-// 	    }
-// 	    return false;
-//     });
 
 });
   </script>
