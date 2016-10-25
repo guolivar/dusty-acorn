@@ -146,14 +146,14 @@ class Pacman(object):
 		# Calculate the max/min for each stream only for valid data lines
 		if (pm10>0):
 			self.rec_time=time.gmtime()
-			self.timestamp = time.strftime("%Y/%m/%d %H:%M:%S GMT",rec_time)
+			self.timestamp = time.strftime("%Y/%m/%d %H:%M:%S GMT",self.rec_time)
 			self.maxCO2 = max(self.frameCO2)
 			self.minCO2 = min(self.frameCO2)
 			self.maxDUST = max(self.frameDUST)
 			self.minDUST = min(self.frameDUST)
 			self.maxTEMP = max(self.frameTEMP)
 			self.minTEMP = min(self.frameTEMP)
-			file_line = timestamp+','+str(pm1)+','+str(dust)+','+str(pm10)+','+str(distance)+','+str(t1)+','+str(rh)+','+str(co2)
+			file_line = self.timestamp+','+str(pm1)+','+str(dust)+','+str(pm10)+','+str(distance)+','+str(t1)+','+str(rh)+','+str(co2)
 			# We have data so we save it
 			current_file_name = self.datapath+time.strftime("%Y%m%d.txt",self.rec_time)
 			current_file = open(current_file_name,"a")
