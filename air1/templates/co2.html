@@ -111,7 +111,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
 				
-				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
+				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#ffff00');
 				if (data[key][6]>=data[key][8]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
