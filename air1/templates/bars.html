@@ -11,9 +11,6 @@
 		<script src="script_min.js"></script>
 	</head>
 	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img id="mjpeg_dest" /></div>
-		</center>
 		<div class="gridster">
 			<ul>
 				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
@@ -21,6 +18,8 @@
 <!-- 						<h1>Humidity</h1> -->
 						<div id="rh_widget" style="background-color: #0000ff"></div>
 					</div>
+				</li>
+				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 <!-- 						<h1>Temperature</h1> -->
 						<div id="temperature_widget" style="background-color: #ff0000"></div>
@@ -58,10 +57,27 @@
 <script type="text/javascript">
 $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
+// 	maximumColumns: 4
+// 	widgetMargin: 5
+// 	widgetDimensions: () ->
+// 	maxWidth = @el.width();
+// 	return  {
+// 		width: Math.floor( (maxWidth / @maximumColumns) - (@widgetMargin * 2) )
+// 		height: 100
+//     }
+// 	dimensions = @widgetDimensions()
+// 	@$el.find('.gridster .widgets').gridster({ 
+// 		# The X & Y Margins for each widget
+// 		widget_margins: [@widgetMargin, @widgetMargin]
+// 		# The width of one column
+// 		# The height of one row
+// 		widget_base_dimensions: [dimensions.width, dimensions.height]
+// 	})
+// 	
 	$('.gridster ul').gridster({
-		widget_margins: [5, 5],
-		widget_base_dimensions: [340, 768],
-		max_cols: 4
+		widget_base_dimensions: [240, 768],
+		max_cols: 5,
+		widget_margins: [2,2]
 	});
 
 	var isopen = false;

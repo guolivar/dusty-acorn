@@ -27,24 +27,25 @@
 	<body id="home">
 
 		<div class="navigation" id="nav-bar">
-			<a href="./bars.html">
-			<img src="{{ static_url("images/all.svg") }}" name="All" align="left" width="319" height="91" border="0"/></a>
-			<a href="./dust.html">
-			<img src="{{ static_url("images/dust.svg") }}" name="Dust" align="left" width="319" height="91" border="0"/>
-			<a href="./co2.html">
-			<img src="{{ static_url("images/co2.svg") }}" name="CO2" align="left" width="319" height="91" border="0"/>
-			<a href="./temperature.html">
-			<img src="{{ static_url("images/temperature.svg") }}" name="temperature" align="left" width="319" height="91" border="0"/>
-			<a href="./rh.html">
-			<img src="{{ static_url("images/humidity.svg") }}" name="rh" align="left" width="319" height="91" border="0"/>
-			<a href="./distance.html">
-			<img src="{{ static_url("images/distance.png") }}" name="distance" align="left" width="319" height="91" border="0"/></a>
-			</p>
-			<a href="./temperature_qual.html">
-			<img src="{{ static_url("images/temperature.svg") }}" name="temperature_q" align="left" width="319" height="91" border="0"/></a>
+			<a href="./bars.html" target="main_vis">
+			<img src="{{ static_url("images/all.svg") }}" name="All" align="left" width=100% border="0"/></a>
+			<a href="./dust.html" target="main_vis">
+			<img src="{{ static_url("images/dust.svg") }}" name="Dust" align="left" width=100% border="0"/></a>
+			<a href="./co2.html" target="main_vis">
+			<img src="{{ static_url("images/co2.svg") }}" name="CO2" align="left" width=100% border="0"/></a>
+			<a href="./temperature.html" target="main_vis">
+			<img src="{{ static_url("images/temperature.svg") }}" name="temperature" width=100% align="left" border="0"/></a>
+			<a href="./rh.html" target="main_vis">
+			<img src="{{ static_url("images/humidity.svg") }}" name="rh" align="left" width=100% border="0"/></a>
+			<a href="./distance.html" target="main_vis">
+			<img src="{{ static_url("images/distance.svg") }}" name="distance" align="left" width=100% border="0"/></a>
+			<a href="./temperature_qual.html" target="main_vis">
+			<img src="{{ static_url("images/temperatureQ.svg") }}" name="temperature_q" align="left" width=100% border="0"/></a>
+			<a href="./co2_qual.html" target="main_vis">
+			<img src="{{ static_url("images/co2_cloud.svg") }}" name="CO2" align="left" width=100% border="0"/></a>
 		</div>
 		<div class="visualization">
-                    <iframe src="./bars.html" width=100% height=100%>
+                    <iframe name="main_vis" src="./bars.html" width=100% height=100%>
 <!--TO DO:
 Update the iframe with the right page when clicking the right nav button-->
 		</div>
@@ -55,6 +56,4 @@ Update the iframe with the right page when clicking the right nav button-->
 <script src="{{ static_url("app.js") }}" type="text/javascript"></script>
 
 
-  </script>
-</body>
 </html>

@@ -13,7 +13,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="co2.svg">
+   sodipodi:docname="co2_cloud.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -28,7 +28,7 @@
      id="namedview9"
      showgrid="false"
      inkscape:zoom="3.0729927"
-     inkscape:cx="-8.0242909"
+     inkscape:cx="77.72274"
      inkscape:cy="27.323704"
      inkscape:window-x="0"
      inkscape:window-y="24"
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,13 +61,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:0.94117647;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="350.74921"
+       x="335.86639"
        y="279.69479"
        id="text4142"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan4705"
-         x="350.74921"
-         y="279.69479">CO2</tspan></text>
+         id="tspan4136"
+         x="335.86639"
+         y="279.69479">Cloud</tspan></text>
   </g>
 </svg>
