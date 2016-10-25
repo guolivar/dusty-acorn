@@ -25,9 +25,8 @@ class Pacman(object):
 		# Close the settings file
 		settings_file.close()
 		# Set the initial time for data storage
-		datapath = "../data/"
-		rec_time=time.gmtime()
-		prev_file_name = datapath+time.strftime("%Y%m%d.txt",rec_time)
+		self.datapath = "../data/"
+		self.rec_time=time.gmtime()
 		if (self.mode_line == 'live'):
 			# If live ... open the serial port
 			# Open the serial port and clean the I/O buffer
@@ -146,8 +145,8 @@ class Pacman(object):
 		self.frameTEMP = [t1] + self.frameTEMP[:-1]
 		# Calculate the max/min for each stream only for valid data lines
 		if (pm10>0):
-			rec_time=time.gmtime()
-			timestamp = time.strftime("%Y/%m/%d %H:%M:%S GMT",rec_time)
+			self.rec_time=time.gmtime()
+			self.timestamp = time.strftime("%Y/%m/%d %H:%M:%S GMT",rec_time)
 			self.maxCO2 = max(self.frameCO2)
 			self.minCO2 = min(self.frameCO2)
 			self.maxDUST = max(self.frameDUST)
@@ -156,7 +155,7 @@ class Pacman(object):
 			self.minTEMP = min(self.frameTEMP)
 			file_line = timestamp+','+str(pm1)+','+str(dust)+','+str(pm10)+','+str(distance)+','+str(t1)+','+str(rh)+','+str(co2)
 			# We have data so we save it
-			current_file_name = datapath+time.strftime("%Y%m%d.txt",rec_time)
+			current_file_name = self.datapath+time.strftime("%Y%m%d.txt",self.rec_time)
 			current_file = open(current_file_name,"a")
 			current_file.write(file_line+"\n")
 			current_file.flush()
