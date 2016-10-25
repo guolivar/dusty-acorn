@@ -25,7 +25,7 @@
 						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 <!-- 						<h1>Dust</h1> -->
 						<div id="dust_widget" style="background-color: #008000"></div>
@@ -37,7 +37,7 @@
 						<div id="co2_widget" style="background-color: #800080"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 <!-- 						<h1>Distance</h1> -->
 						<div id="distance_widget" style="background-color: #ffa500"></div>
@@ -153,8 +153,8 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setProgressBarHeight("rh_widget", data[key][5], 50, 100, '#0000ff');
 				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
 				setProgressBarHeight("dust_widget", data[key][2], 0, 100, '#008000');
-				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#800080');
-				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#ffa500');
+				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#ffff00');
+				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#f47c3d');
 
 				if (data[key][3] < 30 && data[key][3] > 0) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
