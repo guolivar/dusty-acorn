@@ -26,7 +26,7 @@ byte receiveDat[receiveDatIndex]; //receive data from the air detector module
 byte readbuffer[64];
 unsigned int checkSum,checkresult;
 unsigned int FrameLength,Data4,Data5,Data6;
-unsigned int PM1,PM25,PM10,N300,N500,N1000,N2500,N5000,N10000;
+unsigned int PM1,PM25,PM10,N300,N500,N1000,;
 unsigned int timer1,timer0;
 boolean valid_data;
 dht DHT;
