@@ -12,8 +12,8 @@
 #define DHT22_PIN 7 // Pin where the DHT22 is connected
 //Ultrasonic range finder
 #include <NewPing.h>
-#define TRIGGER_PIN 6
-#define ECHO_PIN 5
+#define TRIGGER_PIN 5
+#define ECHO_PIN 6
 #define MAX_DISTANCE 200
 //PMS3003 definitions
 #include <SoftwareSerial.h>
@@ -92,7 +92,7 @@ void SendData() {
 	Serial.print("\t");
 	//Distance from Range Finder
 	int uS = sonar.ping_median(10);
-	Distance=sonar.convert_cm(uS);;
+	Distance=sonar.convert_cm(uS);
 	Serial.print(Distance);
 	Serial.print("\t");
 	//Serial.println("Distance Done");
