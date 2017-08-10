@@ -26,7 +26,7 @@ byte receiveDat[receiveDatIndex]; //receive data from the air detector module
 byte readbuffer[64];
 unsigned int checkSum,checkresult;
 unsigned int FrameLength,Data4,Data5,Data6;
-unsigned int PM1,PM25,PM10,N300,N500,N1000,;
+unsigned int PM1,PM25,PM10,N300,N500,N1000;
 unsigned int timer1,timer0;
 boolean valid_data;
 dht DHT;
@@ -92,11 +92,12 @@ void SendData() {
 	Serial.print("\t");
 	//Distance from Range Finder
 	int uS = sonar.ping_median(10);
-	Distance=uS/US_ROUNDTRIP_CM;
+	Distance=sonar.convert_cm(uS);;
 	Serial.print(Distance);
 	Serial.print("\t");
 	//Serial.println("Distance Done");
 	//Temperature and RH from DHT22
+	int chk = DHT.read22(DHT22_PIN);
 	Serial.print(DHT.temperature);
 	Serial.print("\t");
 	Serial.print(DHT.humidity);

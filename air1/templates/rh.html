@@ -76,7 +76,7 @@ var setRHElement = function(id, value) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
     		var inputLow = 0;
-    		var inputHigh = 50;
+    		var inputHigh = 100;
 
     		var outputLow = 0;
     		var outputHigh = 10;
@@ -101,10 +101,6 @@ var setRHElement = function(id, value) {
 				setValue('co2', data[key][6]);
 
 				setRHElement("rhimage", data[key][5]);
-				if (data[key][4]>=data[key][12]) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				}
 			}
       	}
     };
