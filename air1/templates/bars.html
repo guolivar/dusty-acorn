@@ -11,38 +11,35 @@
 		<script src="script_min.js"></script>
 	</head>
 	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img id="mjpeg_dest" /></div>
-		</center>
 		<div class="gridster">
 			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Temperature</h1>
-						<div id="temperature_widget" style="background-color: #0000ff"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Dust</h1>
-						<div id="dust_widget" style="background-color: #008000"></div>
+<!-- 						<h1>Humidity</h1> -->
+						<div id="rh_widget" style="background-color: #0000ff"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>CO2</h1>
+<!-- 						<h1>Temperature</h1> -->
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>Dust</h1> -->
+						<div id="dust_widget" style="background-color: #008000"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>CO2</h1> -->
 						<div id="co2_widget" style="background-color: #800080"></div>
 					</div>
 				</li>
 				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>Movement</h1>
-						<div id="movement_widget" style="background-color: #ffff00"></div>
-					</div>
-				</li>
-				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Distance</h1>
+<!-- 						<h1>Distance</h1> -->
 						<div id="distance_widget" style="background-color: #ffa500"></div>
 					</div>
 				</li>
@@ -60,14 +57,31 @@
 <script type="text/javascript">
 $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
+// 	maximumColumns: 4
+// 	widgetMargin: 5
+// 	widgetDimensions: () ->
+// 	maxWidth = @el.width();
+// 	return  {
+// 		width: Math.floor( (maxWidth / @maximumColumns) - (@widgetMargin * 2) )
+// 		height: 100
+//     }
+// 	dimensions = @widgetDimensions()
+// 	@$el.find('.gridster .widgets').gridster({ 
+// 		# The X & Y Margins for each widget
+// 		widget_margins: [@widgetMargin, @widgetMargin]
+// 		# The width of one column
+// 		# The height of one row
+// 		widget_base_dimensions: [dimensions.width, dimensions.height]
+// 	})
+// 	
 	$('.gridster ul').gridster({
-		widget_margins: [5, 5],
-		widget_base_dimensions: [330, 1000],
-		max_cols: 5
+		widget_base_dimensions: [215, 700],
+		max_cols: 5,
+		widget_margins: [2,2]
 	});
 
 	var isopen = false;
-	var socket = new WebSocket("ws://localhost:8080/ws");
+	var socket = new WebSocket("ws://127.0.0.1:8080/ws");
 	socket.binaryType = "arraybuffer";
 
 	socket.onopen = function() {
@@ -128,40 +142,39 @@ $(function() { // only when the page has loaded and jQuery is ready
 			if (key == 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][2]);
-				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('distance', data[key][3]);
+				setValue('pm1', data[key][0]);
+				setValue('pm10', data[key][2]);
+				setValue('temperature_1', data[key][4]);
+				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
-				setValue('co', data[key][6]);
-				setValue('co2', data[key][5]);
-				setValue('co_status', data[key][8]);
-				setValue('movement', data[key][7]);
+				setValue('co2', data[key][6]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], 10, 40, '#0000ff');
-				setProgressBarHeight("dust_widget", data[key][1], 600, 1200, '#008000');
-				setProgressBarHeight("co2_widget", data[key][5], -1200,-700, '#800080');
-				setProgressBarHeight("movement_widget", data[key][7], 0, 1, '#ffff00');
-				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
-				if (data[key][2] < 30 && data[key][2] > 0) {
+				setProgressBarHeight("rh_widget", data[key][5], 30, 100, '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
+				setProgressBarHeight("dust_widget", data[key][2], 0, 50, '#008000');
+				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#ffff00');
+				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#f47c3d');
+
+				if (data[key][3] < 30 && data[key][3] > 0) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 45) {
+				} else 	if (data[key][3] < 45) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/D.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 60) {
+				} else 	if (data[key][3] < 60) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/E.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 75) {
+				} else 	if (data[key][3] < 75) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/F.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 90) {
+				} else 	if (data[key][3] < 90) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/G.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 105) {
+				} else 	if (data[key][3] < 105) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/A.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 120) {
+				} else 	if (data[key][3] < 120) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/B.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				} else {

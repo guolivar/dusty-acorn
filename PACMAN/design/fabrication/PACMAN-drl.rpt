@@ -1,0 +1,24 @@
+Drill report for /home/gustavo/repositories/dusty-acorn/PACMAN/design/PACMAN.kicad_pcb
+Created on Thu 11 Aug 2016 11:33:47 NZST
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'PACMAN.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.80mm  0.031"  (32 holes)
+    T2  1.02mm  0.040"  (59 holes)
+    T3  2.50mm  0.098"  (1 hole)
+
+    Total plated holes count 92
+
+
+Drill file 'PACMAN-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+
+    Total unplated holes count 0

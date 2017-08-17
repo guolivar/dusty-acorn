@@ -8,9 +8,12 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
+		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;">
-		<div id="particles-js" width="768px" height="768px" style="width: 768px; height: 768px; min-height: 768px;"></div>
+	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
+	<center>
+		<div><img src="{{ static_url('images/co2.png') }}" id="co2_widget" /></div>
+        </center>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -24,14 +27,9 @@
 $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
-		widget_margins: [10, 10],
-		widget_base_dimensions: [940, 800],
-		max_cols: 2
-	});
-
-	// start particles-js
-	particlesJS.load('particles-js', '{{ static_url("particles.json") }}', function() {
-	  console.log('callback - particles.js config loaded');
+		widget_margins: [5, 5],
+		widget_base_dimensions: [1000, 1000],
+		max_cols: 5
 	});
 
 	var isopen = false;
@@ -75,11 +73,22 @@ $(function() { // only when the page has loaded and jQuery is ready
 		});
     };
 
-    var updateParticles = function(amount) {
-    	window.pJSDom[0].pJS.particles.number.value = 10*amount;
-    	window.pJSDom[0].pJS.fn.particlesEmpty();
-    	window.pJSDom[0].pJS.fn.particlesCreate();
-    	//window.pJSDom[0].pJS.fn.particlesRefresh();
+    var setCO2Element = function(id, value) {
+    	var element = document.getElementById(id);
+    	if (undefined !== element && null !== element) {
+    		// TODO: remove duplication; see setTemperatureThermometer
+    		var inputLow = -500;
+    		var inputHigh = 0;
+
+    		var outputLow = 0;
+    		var outputHigh = 100;
+
+    		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
+    		var rounded = Number(result).toFixed(2);
+
+
+    		element.setAttribute('style','width: '+rounded+'%; height: '+rounded+'%;');
+    	}
     };
 
     var onHeartbeat = function(data) {
@@ -93,9 +102,8 @@ $(function() { // only when the page has loaded and jQuery is ready
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-
-				updateParticles(data[key][2]);
-				if (data[key][1]>=data[key][10]) {
+				setCO2Element("co2_widget", data[key][6]);
+				if (data[key][6]>=data[key][8]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}

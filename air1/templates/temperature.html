@@ -8,31 +8,26 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
+		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;">
+	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
+		<center>
+			<div><img id="mjpeg_dest" /></div>
+		</center>
 		<div class="gridster">
 			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1" id="temperature_widget" style="background-color: #f1c40f">
-					<div class="widget">
-						<img style="display: inline-block; vertical-align: middle; width: 128px; height: 128px;" src="{{ static_url('images/0101-sun-smile-glasses-icon_128.png') }}" id="temperature_image" />
+				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+						<h1>Temperature</h1>
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
-				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1" id="dust_widget" style="background-color: #2c3e50">
-					<div id="particles-js" width="940px" height="510px" style="width: 940px; height: 510px; min-height: 510px;"></div>
-				</li>
-				<li data-row="2" data-col="1" data-sizex="1" data-sizey="1" id="co2_widget" style="background-color: #ecf0f1">
-					<div class="widget">
-						<img src="{{ static_url("co2.png") }}" id="co2_image" />
-					</div>
-				</li>
-				<li data-row="2" data-col="2" data-sizex="1" data-sizey="1" id="movement_widget" style="background-color: #3498db">
-					<video width="100%" height="100%" id="movement_video">
-						<source src="{{ static_url("jake.mp4") }}" type="video/mp4" id="movement_video_source" />
-						<object data="{{ static_url("jake.mp4") }}" width="100%" height="100%" id="movement_video_object"></object>
-					</video>
-				</li>
-			</ul>
+	</ul>
 		</div>
+		<audio id="audiosource">
+			<source type="audio/mp3"  />
+			Your browser does not support the audio element.
+		</audio>
 	</body>
 <script src="{{ static_url("jquery.min.js") }}" type="text/javascript"></script>
 <script src="{{ static_url("jquery.gridster.js") }}" type="text/javascript"></script>
@@ -42,18 +37,13 @@
 $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
-		widget_margins: [10, 10],
-		widget_base_dimensions: [940, 510],
-		max_cols: 2
-	});
-
-	// start particles-js
-	particlesJS.load('particles-js', '{{ static_url("particles.json") }}', function() {
-	  console.log('callback - particles.js config loaded');
+		widget_margins: [5, 5],
+		widget_base_dimensions: [1000, 700],
+		max_cols: 5
 	});
 
 	var isopen = false;
-	var socket = new WebSocket("ws://localhost:8080/ws");
+	var socket = new WebSocket("ws://127.0.0.1:8080/ws");
 	socket.binaryType = "arraybuffer";
 
 	socket.onopen = function() {
@@ -93,54 +83,20 @@ $(function() { // only when the page has loaded and jQuery is ready
 		});
     };
 
-    var setCo2InElement = function(id, value) {
+    var setProgressBarHeight = function(id, value, min, max, color) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
-    		// TODO: remove duplication; see setTemperatureThermometer
-    		var inputLow = 800;
-    		var inputHigh = 1100;
+    		var inputLow = min;
+    		var inputHigh = max;
 
-    		var outputLow = 100;
-    		var outputHigh = 500;
+    		var outputLow = 0;
+    		var outputHigh = 100;
 
     		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
     		var rounded = Number(result).toFixed(2);
 
-    		element.setAttribute('height', '' + rounded + 'px');
-    	}
-    };
-
-    var setTemperatureImage = function(id, value) {
-    	var coldThreshold = 25;
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		if (value < coldThreshold) {
-    			element.setAttribute('src', '{{ static_url("images/0302-snow-snowflakes-icon_128.png") }}');
-    			element.parentElement.parentElement.setAttribute('style', 'background-image: #2980b9;');
-    		} else {
-    			element.setAttribute('src', '{{ static_url("images/0101-sun-smile-glasses-icon_128.png") }}');
-    			element.parentElement.parentElement.setAttribute('style', 'background-color: #f1c40f');
-    		}
-    	}
-    };
-
-    var playVideo = function(id, value) {
-    	var movementThreshold = 100;
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		if (value < movementThreshold) {
-    			element.pause();
-    		} else {
-    			element.play();
-    		}
-    	}
-    };
-
-    var updateParticles = function(amount) {
-    	window.pJSDom[0].pJS.particles.number.value = (amount/100)^3;
-    	window.pJSDom[0].pJS.fn.particlesEmpty();
-    	window.pJSDom[0].pJS.fn.particlesCreate();
-    	//window.pJSDom[0].pJS.fn.particlesRefresh();
+    		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
+       	}
     };
 
     var onHeartbeat = function(data) {
@@ -150,18 +106,18 @@ $(function() { // only when the page has loaded and jQuery is ready
 			} else if (key == 'pacman_data') {
 				setValue('distance', data[key][2]);
 				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('temperature_1', data[key][4]);
 				setValue('dust', data[key][1]);
 				setValue('co', data[key][6]);
 				setValue('co2', data[key][5]);
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setCo2InElement('co2_image', data[key][5]);
-				setTemperatureImage('temperature_image', data[key][4]);
-				playVideo('movement_video', data[key][7]);
-				updateParticles(data[key][1]);
+				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
+				if (data[key][4]>=data[key][14]) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				}
 			}
       	}
     };
@@ -175,6 +131,20 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
+    // For the camera
+	var mjpeg_img;
+	function reload_img () {
+		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
+	}
+	function error_img () {
+		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
+	}
+	function init() {
+		mjpeg_img = document.getElementById("mjpeg_dest");
+		mjpeg_img.onload = reload_img;
+		mjpeg_img.onerror = error_img;
+		reload_img();
+	}
 
 // Handling actions in the UI
 //     $('#my_button').click(function() {

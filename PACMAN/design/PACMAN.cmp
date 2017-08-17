@@ -1,0 +1,192 @@
+Cmp-Mod V01 Created by CvPCB (2011-07-12 BZR 3047)-stable date = Fri 20 Jan 2012 10:38:14 AM NZDT
+
+BeginCmp
+TimeStamp = /4DF039FA;
+Reference = C1;
+ValeurCmp = 220uf;
+IdModule  = SparkFun-CAP-POL-PTH-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E00AFC8;
+Reference = C2;
+ValeurCmp = 100uf;
+IdModule  = SparkFun-CAP-POL-PTH-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E00AFD7;
+Reference = C3;
+ValeurCmp = 10uf;
+IdModule  = SparkFun-CAP-POL-PTH-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EE7FDB1;
+Reference = C4;
+ValeurCmp = 0.1pF;
+IdModule  = SparkFun-CAP-PTH-SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E79B598;
+Reference = C5;
+ValeurCmp = 0.1pF;
+IdModule  = SparkFun-CAP-PTH-SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EE814EE;
+Reference = D1;
+ValeurCmp = DIODEPTH;
+IdModule  = SparkFun-DIODE-1N4001;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EAFF2C5;
+Reference = IC1;
+ValeurCmp = ATTINY85-P;
+IdModule  = DIP-8__300_ELL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E79B530;
+Reference = IC2;
+ValeurCmp = 74VHC4052_ANALOG_MUX;
+IdModule  = DIP-16__300_ELL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DEF4EE8;
+Reference = JP1;
+ValeurCmp = DustConnector;
+IdModule  = SparkFun-1X06_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EE8157F;
+Reference = JP2;
+ValeurCmp = Power_IN;
+IdModule  = SparkFun-1X02_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E008D1A;
+Reference = JP3;
+ValeurCmp = CO_connector;
+IdModule  = SparkFun-1X04_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DEF4F00;
+Reference = JP4;
+ValeurCmp = SDbreakout;
+IdModule  = SparkFun-1X08_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E008CF6;
+Reference = JP5;
+ValeurCmp = CO2_connector;
+IdModule  = SparkFun-1X04_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E014DDE;
+Reference = JP6;
+ValeurCmp = ChronoDot;
+IdModule  = SparkFun-1X04_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E008D67;
+Reference = JP7;
+ValeurCmp = Temperature;
+IdModule  = SparkFun-1X02_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E00B4CD;
+Reference = JP8;
+ValeurCmp = XBee;
+IdModule  = SparkFun-1X04_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E02BBF4;
+Reference = JP9;
+ValeurCmp = MAXSonar;
+IdModule  = SparkFun-1X03_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E758277;
+Reference = JP10;
+ValeurCmp = PIR;
+IdModule  = SparkFun-1X03_LONGPADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E7A6F64;
+Reference = R1;
+ValeurCmp = 150;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E7A6F17;
+Reference = R2;
+ValeurCmp = 2.2k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E79DB40;
+Reference = R5;
+ValeurCmp = 10k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F137F4E;
+Reference = R6;
+ValeurCmp = 10k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F137F48;
+Reference = R7;
+ValeurCmp = 10k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F137F3E;
+Reference = R8;
+ValeurCmp = 10k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F137F29;
+Reference = R10;
+ValeurCmp = 10k;
+IdModule  = R3-LARGE_PADS;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EE80A80;
+Reference = U1;
+ValeurCmp = LM7805;
+IdModule  = LM78XX;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E015F37;
+Reference = U2;
+ValeurCmp = ARDUINO_PRO_MINI;
+IdModule  = Halley-ARDUINO_PRO_MINI;
+EndCmp
+
+EndListe

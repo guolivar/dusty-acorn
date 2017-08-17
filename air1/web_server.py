@@ -37,6 +37,13 @@ class IndexHandler(WebHandler):
     def get(self):
         self.render("index.html", app_name='Air 1')
 
+# /index2.html
+class IndexHandler2(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("index2.html", app_name='Air 1')
+
+
 # /grid.html
 class GridHandler(WebHandler):
     @tornado.web.asynchronous
@@ -61,9 +68,36 @@ class DustHandler(WebHandler):
     def get(self):
         self.render("dust.html", app_name='Air 1')
 
+# /temperature.html
+class TempHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("temperature.html", app_name='Air 1')
+class TempQHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("temperature_qual.html", app_name='Air 1')
+# /RH.html
+class RhHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("rh.html", app_name='Air 1')
+# /co2.html
+class CO2Handler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("co2.html", app_name='Air 1')
+# /co2_rel.html
+class CO2qualHandler(WebHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.render("co2_qual.html", app_name='Air 1')
+
 # websockets
 clients = []
 class MetricsHandler(WebSocketHandler):
+    def check_origin(self, origin):
+        return True
 
     def open(self, *args):
         print('New connection!')
@@ -98,12 +132,17 @@ def main():
     # here we define the routes that the web app handles
     app = tornado.web.Application(
         handlers = [
-            (r"/", IndexHandler),
+            (r"/index2.html", IndexHandler2),
             (r"/index.html", IndexHandler), 
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),  
             (r"/distance.html", DistanceHandler),
             (r"/dust.html", DustHandler),
+            (r"/temperature.html", TempHandler),
+            (r"/temperature_qual.html", TempQHandler),
+            (r"/rh.html", RhHandler),
+            (r"/co2.html", CO2Handler),
+            (r"/co2_qual.html", CO2qualHandler),
             (r"/ws", MetricsHandler)
             ],
         cookie_secret="__air_1__",
@@ -115,7 +154,7 @@ def main():
 
     # listen to the port and start the app loop and wait for clients
     server = HTTPServer(app)
-    server.listen(options.port, '0.0.0.0')
+    server.listen(options.port)
     print "Listening on port:", options.port
 
     def checkResults():
