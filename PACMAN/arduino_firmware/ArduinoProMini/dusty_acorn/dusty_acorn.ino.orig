@@ -12,8 +12,8 @@
 #define DHT22_PIN 7 // Pin where the DHT22 is connected
 //Ultrasonic range finder
 #include <NewPing.h>
-#define TRIGGER_PIN 5
-#define ECHO_PIN 6
+#define TRIGGER_PIN 6
+#define ECHO_PIN 5
 #define MAX_DISTANCE 200
 //PMS3003 definitions
 #include <SoftwareSerial.h>
@@ -26,7 +26,7 @@ byte receiveDat[receiveDatIndex]; //receive data from the air detector module
 byte readbuffer[64];
 unsigned int checkSum,checkresult;
 unsigned int FrameLength,Data4,Data5,Data6;
-unsigned int PM1,PM25,PM10,N300,N500,N1000;
+unsigned int PM1,PM25,PM10,N300,N500,N1000,N2500,N5000,N10000;
 unsigned int timer1,timer0;
 boolean valid_data;
 dht DHT;
@@ -91,13 +91,17 @@ void SendData() {
 	Serial.print(N1000);
 	Serial.print("\t");
 	//Distance from Range Finder
+<<<<<<< HEAD
 	int uS = sonar.ping_median(10);
-	Distance=sonar.convert_cm(uS);
+	Distance=uS/US_ROUNDTRIP_CM;
+=======
+	Distance=(sonar.ping_median(5)/US_ROUNDTRIP_CM);
+>>>>>>> origin/v2016
 	Serial.print(Distance);
 	Serial.print("\t");
 	//Serial.println("Distance Done");
 	//Temperature and RH from DHT22
-	int chk = DHT.read22(DHT22_PIN);
+        int chk = DHT.read22(DHT22_PIN);
 	Serial.print(DHT.temperature);
 	Serial.print("\t");
 	Serial.print(DHT.humidity);
@@ -121,10 +125,10 @@ void setup(){
 }
 void loop(){
 	timer1 = millis();
-	if  ((timer1 - timer0) > 1000) {
-		timer0 = timer1;
+//	if  ((timer1 - timer0) > 1000) {
+//		timer0 = timer1;
 		SendData();
 		if (dustport.available())
 			Serial.readBytes((char *)readbuffer,64);
-	}
+//	}
 }

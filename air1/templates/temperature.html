@@ -19,7 +19,7 @@
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
 						<h1>Temperature</h1>
-						<div id="temperature_widget" style="background-color: #0000ff"></div>
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
 					</div>
 				</li>
 	</ul>
@@ -38,7 +38,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
 	$('.gridster ul').gridster({
 		widget_margins: [5, 5],
-		widget_base_dimensions: [1000, 1000],
+		widget_base_dimensions: [1000, 700],
 		max_cols: 5
 	});
 
@@ -106,15 +106,14 @@ $(function() { // only when the page has loaded and jQuery is ready
 			} else if (key == 'pacman_data') {
 				setValue('distance', data[key][2]);
 				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('temperature_1', data[key][4]);
 				setValue('dust', data[key][1]);
 				setValue('co', data[key][6]);
 				setValue('co2', data[key][5]);
 				setValue('co_status', data[key][8]);
 				setValue('movement', data[key][7]);
 
-				setProgressBarHeight("temperature_widget", data[key][4], data[key][13], data[key][14], '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
 				if (data[key][4]>=data[key][14]) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");

@@ -1,2 +1,4 @@
-live
+test
 /dev/ttyUSB0,57600,N,8,n
+live
+

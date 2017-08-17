@@ -10,20 +10,10 @@
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
 		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
+	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
 		<center>
-			<div><img id="mjpeg_dest" /></div>
+			<div><img src="{{ static_url('images/snail.png') }}" id="distanceimage" /></div>
 		</center>
-		<div class="gridster">
-			<ul>
-				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-					<div class="widget_bar">
-						<h1>Distance</h1>
-						<div id="distance_widget" style="background-color: #ffa500"></div>
-					</div>
-				</li>
-			</ul>
-		</div>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -35,12 +25,6 @@
 <script src="{{ static_url("app.js") }}" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() { // only when the page has loaded and jQuery is ready
-	// start gridster
-	$('.gridster ul').gridster({
-		widget_margins: [5, 5],
-		widget_base_dimensions: [1000, 1000],
-		max_cols: 5
-	});
 
 	var isopen = false;
 	var socket = new WebSocket("ws://127.0.0.1:8080/ws");
@@ -82,12 +66,11 @@ $(function() { // only when the page has loaded and jQuery is ready
 			entry.innerHTML = value;
 		});
     };
-
-    var setProgressBarHeight = function(id, value, min, max, color) {
+    var setDistanceElement = function(id, value) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
-    		var inputLow = min;
-    		var inputHigh = max;
+    		var inputLow = 0;
+    		var inputHigh = 120;
 
     		var outputLow = 0;
     		var outputHigh = 100;
@@ -95,8 +78,9 @@ $(function() { // only when the page has loaded and jQuery is ready
     		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
     		var rounded = Number(result).toFixed(2);
 
-    		element.setAttribute('style', 'height: ' + rounded + '%; width: 100%; background-color: ' + color + ';');
-       	}
+
+    		element.setAttribute('style','width: '+rounded+'%; height: '+rounded+'%;');
+    	}
     };
 
     var onHeartbeat = function(data) {
@@ -104,36 +88,32 @@ $(function() { // only when the page has loaded and jQuery is ready
 			if (key == 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key == 'pacman_data') {
-				setValue('distance', data[key][2]);
-				setValue('record_number', data[key][0]);
-				setValue('temperature_1', data[key][3]);
-				setValue('temperature_2', data[key][4]);
+				setValue('distance', data[key][3]);
+				setValue('pm1', data[key][0]);
+				setValue('temperature_1', data[key][4]);
+				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
-				setValue('co', data[key][6]);
-				setValue('co2', data[key][5]);
-				setValue('co_status', data[key][8]);
-				setValue('movement', data[key][7]);
-				
-				setProgressBarHeight("distance_widget", data[key][2], 10, 120, '#ffa500');
-				if (data[key][2] < 30 && data[key][2] > 0) {
+				setValue('co2', data[key][6]);
+				setDistanceElement('distanceimage',data[key][3]);
+				if (data[key][3] < 30) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 45) {
+				} else 	if (data[key][3] < 45) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/D.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 60) {
+				} else 	if (data[key][3] < 60) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/E.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 75) {
+				} else 	if (data[key][3] < 75) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/F.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 90) {
+				} else 	if (data[key][3] < 90) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/G.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 105) {
+				} else 	if (data[key][3] < 105) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/A.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][2] < 120) {
+				} else 	if (data[key][3] < 120) {
 					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/B.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				} else {
@@ -144,7 +124,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 			}
       	}
     };
-
+    
     var onAction = function(data) {
     	console.log("Action: " + data);
     };
