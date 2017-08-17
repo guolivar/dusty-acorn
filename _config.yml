@@ -1,0 +1,8 @@
+title: Dusty ACorn
+description: Dusty Air quality teaching Corner
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
