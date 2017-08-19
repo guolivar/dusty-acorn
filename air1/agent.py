@@ -10,9 +10,7 @@ from threading import Thread
 
 # choose which pacman to use dynamically
 import importlib
-serial_device_class = "air1.pacman.Pacman"
-module_name, class_name = serial_device_class.rsplit('.', 1)
-SerialDeviceClass = getattr(importlib.import_module(module_name), class_name)
+from air1.pacman import Pacman
 
 class Agent(Thread):
     """ An agent. Tis a thread, used as the agent, responsible for listen to events to/from the UI, and interact with message queues appropriately """
@@ -47,7 +45,7 @@ class Agent(Thread):
         self.send_message_to_ui('Program started.')
         
         self.send_message_to_ui('Creating pacman device...')
-        self.pacman = SerialDeviceClass ()
+        self.pacman = Pacman()
 
     def send_message_to_ui(self, message):
         """ Sends messages to the UI, via the result queue """
@@ -69,7 +67,7 @@ class Agent(Thread):
                 task = self.taskQ.get()
 
                 # You can view the content of this message in the console where you started the program
-                print "Agent received from web: " + task
+                print("Agent received from web: " + task)
 
                 data = json.loads(task)
 
