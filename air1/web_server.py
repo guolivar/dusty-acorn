@@ -11,7 +11,7 @@ from tornado.options import define, options, parse_command_line
 # for queues
 import multiprocessing
 # for the agent
-import agent
+from air1.agent import Agent
 
 define("port", default=8080, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
@@ -155,16 +155,16 @@ def main():
     # listen to the port and start the app loop and wait for clients
     server = HTTPServer(app)
     server.listen(options.port)
-    print "Listening on port:", options.port
+    print("Listening on port:", options.port)
 
     def checkResults():
         if not resultQ.empty():
             result = resultQ.get()
-            #print "tornado received from agent: " + str(result)
+            #print("tornado received from agent: " + str(result))
             for c in clients:
                 c.write_message(result)
 
-    theAgent = agent.Agent(taskQ, resultQ)
+    theAgent = Agent(taskQ, resultQ)
     theAgent.daemon = True
     mainLoop = tornado.ioloop.IOLoop.instance()
     scheduler = tornado.ioloop.PeriodicCallback(checkResults, 500, io_loop = mainLoop)
@@ -179,5 +179,5 @@ def main():
         theAgent.close()
         scheduler.stop()
         mainLoop.stop()
-    print "Bye!"
+    print("Bye!")
     sys.exit(0)
