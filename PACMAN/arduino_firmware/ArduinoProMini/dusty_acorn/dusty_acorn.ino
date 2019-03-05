@@ -121,10 +121,8 @@ void setup(){
 }
 void loop(){
 	timer1 = millis();
-	if  ((timer1 - timer0) > 1000) {
+	if  ((timer1 - timer0) > 500) {
 		timer0 = timer1;
 		SendData();
-		if (dustport.available())
-			Serial.readBytes((char *)readbuffer,64);
 	}
 }
