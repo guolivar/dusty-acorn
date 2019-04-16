@@ -16,17 +16,17 @@ class Agent(Thread):
     This is a thread, used as the agent, responsible for listen to events to/from the UI, and interact with message
     queues."""
 
-    def __init__(self, taskQ, resultQ):
+    def __init__(self, task_queue, result_queue):
         """Constructor.
 
-        :param taskQ: task queue
-        :type taskQ: Queue
-        :param resultQ: result queue
-        :type resultQ: Queue
+        :param task_queue: task queue
+        :type task_queue: Queue
+        :param result_queue: result queue
+        :type result_queue: Queue
         """
         Thread.__init__(self)
-        self.taskQ = taskQ
-        self.resultQ = resultQ
+        self.taskQ = task_queue
+        self.resultQ = result_queue
 
         self.pacman = None
 
