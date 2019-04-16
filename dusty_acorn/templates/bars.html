@@ -91,14 +91,14 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 	socket.onmessage = function(e) {
 		//console.log(e);
-		if (typeof e.data == "string") {
+		if (typeof e.data === "string") {
 			var data = JSON.parse(e.data);
-			if (data['type'] == 'heartbeat') {
+			if (data['type'] === 'heartbeat') {
 				$("#loader").hide();
 				onHeartbeat(data);
-			} else if (data['type'] == 'action') {
+			} else if (data['type'] === 'action') {
 				onAction(data);
-			} else if (data['type'] == 'message') {
+			} else if (data['type'] === 'message') {
 				console.log('Message received from the server: ' + data['message']);
 				$("#loader_message_holder").text(data['message']);
 			} else {
@@ -139,9 +139,9 @@ $(function() { // only when the page has loaded and jQuery is ready
 
     var onHeartbeat = function(data) {
       	for (key in data) {
-			if (key == 'time') {
+			if (key === 'time') {
 				//document.getElementById("time").innerHTML = data[key];
-			} else if (key == 'pacman_data') {
+			} else if (key === 'pacman_data') {
 				setValue('distance', data[key][3]);
 				setValue('pm1', data[key][0]);
 				setValue('pm10', data[key][2]);
