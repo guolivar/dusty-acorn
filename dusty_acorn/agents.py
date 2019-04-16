@@ -16,9 +16,11 @@ class Agent(Thread):
     This is a thread, used as the agent, responsible for listen to events to/from the UI, and interact with message
     queues."""
 
-    def __init__(self, tasks_queue, results_queue):
+    def __init__(self, pacman, tasks_queue, results_queue):
         """Constructor.
 
+        :param pacman: Pacman for this agent
+        :type pacman: Pacman
         :param tasks_queue: task queue
         :type tasks_queue: Queue
         :param results_queue: result queue
@@ -28,7 +30,7 @@ class Agent(Thread):
         self.tasks_queue = tasks_queue
         self.results_queue = results_queue
 
-        self.pacman = None
+        self.pacman = pacman
 
         # init agent settings, flags, etc
         self.pc_time = datetime.now()
@@ -47,9 +49,6 @@ class Agent(Thread):
 
         print('Program started.')
         self.send_message_to_ui('Program started.')
-
-        self.send_message_to_ui('Creating pacman device...')
-        self.pacman = Pacman()
 
     def send_message_to_ui(self, message):
         """Sends messages to the UI, via the result queue."""

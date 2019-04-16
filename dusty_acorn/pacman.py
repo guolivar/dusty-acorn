@@ -6,6 +6,7 @@ Routine to parse the data line received from the sensors
     New dust sensor with more data and re-ordered the data channels
 """
 
+import os
 import time
 from random import randint
 
@@ -15,22 +16,21 @@ import serial  # Serial communications
 class Pacman(object):
     """ The real pacman. Open serial port on initialisation. Further calls read a new line of data """
 
-    def __init__(self):
+    def __init__(self, settings_file, data_directory):
         # Read the settings from the settings file
-        settings_file = open("./config.txt")
         # Define test or live mode
-        self.mode_line = settings_file.readline().rstrip('\n')
-        # e.g. "/dev/ttyAMA0,9600,N,8,n"
-        settings_line = settings_file.readline().rstrip('\n').split(',')
-        # port = settings_line[0]
-        baud = eval(settings_line[1])
-        par = settings_line[2]
-        byte = eval(settings_line[3])
-        # ceol = settings_line[4]
-        # Close the settings file
-        settings_file.close()
+        with open(settings_file) as sf:
+            self.mode_line = sf.readline().rstrip('\n')
+            # e.g. "/dev/ttyAMA0,9600,N,8,n"
+            settings_line = sf.readline().rstrip('\n').split(',')
+            # port = settings_line[0]
+            baud = eval(settings_line[1])
+            par = settings_line[2]
+            byte = eval(settings_line[3])
+            # ceol = settings_line[4]
+            # Close the settings file
         # Set the initial time for data storage
-        self.datapath = "../data/"
+        self.datapath = data_directory
         self.timestamp = None
         self.entry = None
         self.rec_time = time.gmtime()
@@ -162,7 +162,7 @@ class Pacman(object):
             file_line = self.timestamp + ',' + str(pm1) + ',' + str(dust) + ',' + str(pm10) + ',' + str(
                 distance) + ',' + str(t1) + ',' + str(rh) + ',' + str(co2)
             # We have data so we save it
-            current_file_name = self.datapath + time.strftime("%Y%m%d.txt", self.rec_time)
+            current_file_name = os.path.join(self.datapath, time.strftime("%Y%m%d.txt", self.rec_time))
             current_file = open(current_file_name, "a")
             current_file.write(file_line + "\n")
             current_file.flush()

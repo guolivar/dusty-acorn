@@ -9,8 +9,9 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 install_requires = [
-    'tornado',
-    'pyserial'
+    'click',
+    'pyserial',
+    'tornado'
 ]
 
 setup_requires = [
@@ -67,7 +68,7 @@ setup(
     extras_require=extras_require,
     entry_points={
         'console_scripts': [
-            'dusty-acorn=dusty_acorn:main'
+            'dusty-acorn=dusty_acorn.main:main'
         ]
     }
 )

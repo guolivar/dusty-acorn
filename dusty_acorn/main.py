@@ -5,13 +5,15 @@ import multiprocessing
 import os
 import sys
 
+import click
 import tornado.ioloop
 from tornado.httpserver import HTTPServer
-from tornado.options import define, options, parse_command_line
+from tornado.options import define, options
 from tornado.web import Application, RequestHandler
 from tornado.websocket import WebSocketHandler
 
 from dusty_acorn.agents import Agent
+from dusty_acorn.pacman import Pacman
 
 define("port", default=8080, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
@@ -120,11 +122,16 @@ class MetricsHandler(WebSocketHandler):
         q.put(message)
 
 
-def main():
+@click.command()
+@click.option("--settings", "-s", "settings", help="Settings file", required=True)
+@click.option("--data", "-d", "data_directory", help="Data directory", required=True)
+def main(settings, data_directory):
+    if not settings:
+        raise ValueError(f"Invalid settings file {settings}")
+    if not data_directory or not os.path.isdir(data_directory):
+        raise ValueError(f"Invalid data directory {data_directory}")
     tasks_queue = multiprocessing.Queue()
     results_queue = multiprocessing.Queue()
-
-    parse_command_line()
 
     # here we define the routes that the web app handles
     app = Application(
@@ -161,7 +168,10 @@ def main():
             for c in clients:
                 c.write_message(result)
 
-    the_agent = Agent(tasks_queue, results_queue)
+    print("Creating pacman instance")
+    pacman = Pacman(settings, data_directory)
+
+    the_agent = Agent(pacman, tasks_queue, results_queue)
     the_agent.daemon = True
     scheduler = tornado.ioloop.PeriodicCallback(check_results, 500)
     scheduler.start()
