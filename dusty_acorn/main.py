@@ -6,13 +6,12 @@ import os
 import sys
 
 import tornado.ioloop
-
 from tornado.httpserver import HTTPServer
 from tornado.options import define, options, parse_command_line
 from tornado.web import Application, RequestHandler
 from tornado.websocket import WebSocketHandler
 
-from .agents import Agent
+from dusty_acorn.agents import Agent
 
 define("port", default=8080, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")

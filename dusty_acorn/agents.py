@@ -7,7 +7,7 @@ from datetime import datetime
 from multiprocessing import Queue
 from threading import Thread
 
-from .pacman import Pacman
+from dusty_acorn.pacman import Pacman
 
 
 class Agent(Thread):
