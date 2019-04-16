@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Application agents."""
 
-import datetime
 import json
 import time
-from threading import Thread
+from datetime import datetime
 from multiprocessing import Queue
+from threading import Thread
 
 from .pacman import Pacman
 
@@ -31,7 +31,7 @@ class Agent(Thread):
         self.pacman = None
 
         # init agent settings, flags, etc
-        self.pc_time = datetime.datetime.now()
+        self.pc_time = datetime.now()
         self.has_been_initialized = False
         self.running = True
         print('Agent initialised')
@@ -90,11 +90,8 @@ class Agent(Thread):
 
     def get_metrics(self):
         """This method must return a dict, that represents the metrics collected by the agent."""
-        metrics = dict()
-
-        metrics['type'] = 'heartbeat'  # message type
-        metrics['time'] = datetime.datetime.now().strftime('%H:%M:%S')
-        pacman_data = self.pacman.read_data()
-        metrics['pacman_data'] = pacman_data
-
-        return metrics
+        return {
+            'type': 'heartbeat',
+            'time': datetime.now().strftime('%H:%M:%S'),
+            'pacman_data': self.pacman.read_data()
+        }
