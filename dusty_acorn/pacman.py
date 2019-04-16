@@ -22,11 +22,11 @@ class Pacman(object):
         self.mode_line = settings_file.readline().rstrip('\n')
         # e.g. "/dev/ttyAMA0,9600,N,8,n"
         settings_line = settings_file.readline().rstrip('\n').split(',')
-        port = settings_line[0]
+        # port = settings_line[0]
         baud = eval(settings_line[1])
         par = settings_line[2]
         byte = eval(settings_line[3])
-        ceol = settings_line[4]
+        # ceol = settings_line[4]
         # Close the settings file
         settings_file.close()
         # Set the initial time for data storage
