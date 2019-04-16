@@ -134,7 +134,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 				video.play();
 			}, errBack);
 		}
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
@@ -159,7 +159,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);

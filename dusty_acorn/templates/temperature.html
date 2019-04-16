@@ -49,7 +49,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 	socket.onopen = function() {
 		console.log("WebSocket opened!");
 		isopen = true;
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
@@ -74,7 +74,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);
@@ -130,7 +130,7 @@ $(function() { // only when the page has loaded and jQuery is ready
     	console.log("WebSocket closed.");
       	socket = null;
       	isopen = false;
-    }
+    };
     // For the camera
 	var mjpeg_img;
 	function reload_img () {
