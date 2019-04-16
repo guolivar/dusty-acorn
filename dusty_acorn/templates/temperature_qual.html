@@ -79,7 +79,7 @@ $(function() { // only when the page has loaded and jQuery is ready
     };
     
     var onHeartbeat = function(data) {
-      	for (key in data) {
+      	for (var key in data) {
 			if (key === 'time') {
 				//document.getElementById("time").innerHTML = data[key];
 			} else if (key === 'pacman_data') {
