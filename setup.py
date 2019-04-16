@@ -9,23 +9,23 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 install_requires = [
-    'click',
-    'pyserial',
-    'tornado'
+    'click==7.0.*',
+    'pyserial==3.4.*',
+    'tornado==6.0.*'
 ]
 
 setup_requires = [
-    'pytest-runner'
+    'pytest-runner>=4.4'
 ]
 
 tests_require = [
-    'pytest',
-    'coverage',
-    'pytest-cov'
+    'pytest==4.4.*',
+    'coverage>=4.5',
+    'pytest-cov>=2.6'
 ]
 
 sound_testing_require = [
-    'pygame'
+    'pygame==1.9.*'
 ]
 
 extras_require = {
