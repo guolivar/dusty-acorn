@@ -23,9 +23,13 @@ tests_require = [
     'pytest-cov'
 ]
 
+sound_testing_require = [
+    'pygame'
+]
+
 extras_require = {
     'tests': tests_require,
-    'all': install_requires + tests_require
+    'all': install_requires + tests_require + sound_testing_require
 }
 
 setup(

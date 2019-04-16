@@ -5,7 +5,7 @@ Created on Thu Nov  5 12:35:01 2015
 @author: gustavo
 """
 
-import pygame
+from pygame import ini
 import pygame.midi
 from time import sleep
 
