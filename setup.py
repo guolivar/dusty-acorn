@@ -3,12 +3,10 @@ from os import path
 
 from setuptools import setup, find_packages
 
-
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
-
 
 install_requires = [
     'tornado',
@@ -38,6 +36,26 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/niwa/dusty-acorn",
     packages=find_packages(),
+    # find . -name "*.*" -exec sh -c 'echo "${0##*.}"' {} \; | sort | uniq
+    package_data={
+        '': [
+            '*.css',
+            '*.eot',
+            '*.html',
+            '*.jpg',
+            '*.js',
+            '*.json',
+            '*.mp3',
+            '*.mp4',
+            '*.ods',
+            '*.otf',
+            '*.png',
+            '*.svg',
+            '*.ttf',
+            '*.woff',
+            '*.woff2'
+        ],
+    },
     python_requires='>=3.7',
     install_requires=install_requires,
     setup_requires=setup_requires,
