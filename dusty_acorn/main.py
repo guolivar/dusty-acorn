@@ -137,6 +137,7 @@ def main(settings, data_directory):
     app = Application(
         handlers=[
             (r"/index2.html", IndexHandler2),
+            (r"/", IndexHandler),
             (r"/index.html", IndexHandler),
             (r"/grid.html", GridHandler),
             (r"/bars.html", BarsHandler),

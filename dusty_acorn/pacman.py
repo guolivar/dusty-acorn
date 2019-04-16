@@ -170,8 +170,10 @@ class Pacman(object):
         # C D E F G A B
         # print(co2)
         #         0    1    2       3      4   5    6        7            8            9           10            11            12
-        print(pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST,
-              self.minTEMP, self.maxTEMP)
+        print("{:<6}{:<6}{:<6}{:<6}{:<6}{:<7}{:<8}{:<8}{:<6}{:<6}{:<6}{:<6}{:<6}".format(*[
+            pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST,
+            self.minTEMP, self.maxTEMP
+        ]))
         return (
             pm1, dust, pm10, distance, t1, rh, co2, self.minCO2, self.maxCO2, self.minDUST, self.maxDUST, self.minTEMP,
             self.maxTEMP)
