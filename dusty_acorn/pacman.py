@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-# Routine to parse the data line received from the sensors
-# 20160705
-#	Changed the format of the data from the sensor.
-#	New dust sensor with more data and re-ordered the data channels
+"""
+Routine to parse the data line received from the sensors
+20160705
+    Changed the format of the data from the sensor.
+    New dust sensor with more data and re-ordered the data channels
+"""
 
 import time
 from random import randint
