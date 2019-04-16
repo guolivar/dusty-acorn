@@ -179,3 +179,7 @@ def main():
         io_loop.stop()
     print("Bye!")
     sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
