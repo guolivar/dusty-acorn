@@ -63,7 +63,7 @@
 						<td style="height: 150px; ">
 							<div style="transform: rotate(-90deg);">
 								<div class="ui progress error">
-								  <div class="bar" style="transition-duration: 300ms; width: 0%;" id="temperature_bar">
+								  <div class="bar" style="transition-duration: 300ms; width: 0;" id="temperature_bar">
 								    <div class="progress" id="temperature_progress">0&deg;C</div>
 								  </div>
 								</div>
@@ -134,18 +134,18 @@ $(function() { // only when the page has loaded and jQuery is ready
 				video.play();
 			}, errBack);
 		}
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
-		if (typeof e.data == "string") {
+		if (typeof e.data === "string") {
 			var data = JSON.parse(e.data);
-			if (data['type'] == 'heartbeat') {
+			if (data['type'] === 'heartbeat') {
 				$("#loader").hide();
 				onHeartbeat(data);
-			} else if (data['type'] == 'action') {
+			} else if (data['type'] === 'action') {
 				onAction(data);
-			} else if (data['type'] == 'message') {
+			} else if (data['type'] === 'message') {
 				console.log('Message received from the server: ' + data['message']);
 				$("#loader_message_holder").text(data['message']);
 			} else {
@@ -159,7 +159,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);
@@ -213,10 +213,10 @@ $(function() { // only when the page has loaded and jQuery is ready
     };
 
     var onHeartbeat = function(data) {
-      	for (key in data) {
-			if (key == 'time') {
+      	for (var key in data) {
+			if (key === 'time') {
 				document.getElementById("time").innerHTML = data[key];
-			} else if (key == 'pacman_data') {
+			} else if (key === 'pacman_data') {
 				setValue('distance', data[key][2]);
 				setValue('record_number', data[key][0]);
 				setValue('temperature_1', data[key][3]);
@@ -229,7 +229,7 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 				// Example with blur
 				setDustInElement('dust_image', data[key][1]);
-				// Example with thermomether (actually a rotated progress bar)
+				// Example with thermometer (actually a rotated progress bar)
 				setTemperatureThermometer('temperature_bar', 'temperature_progress', data[key][4]);
 				// Example with temperature image
 				setTemperatureImage('temperature_image', data[key][4]);
@@ -266,5 +266,4 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 });
   </script>
-</body>
 </html>

@@ -8,21 +8,41 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
-		<script src="script_min.js"></script>
 	</head>
 	<body style="background-color: black; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img id="mjpeg_dest" /></div>
-		</center>
 		<div class="gridster">
 			<ul>
+				<li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>Humidity</h1> -->
+						<div id="rh_widget" style="background-color: #0000ff"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>Temperature</h1> -->
+						<div id="temperature_widget" style="background-color: #ff0000"></div>
+					</div>
+				</li>
+				<li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>Dust</h1> -->
+						<div id="dust_widget" style="background-color: #008000"></div>
+					</div>
+				</li>
 				<li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
 					<div class="widget_bar">
-						<h1>CO2</h1>
+<!-- 						<h1>CO2</h1> -->
 						<div id="co2_widget" style="background-color: #800080"></div>
 					</div>
 				</li>
-	</ul>
+				<li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+					<div class="widget_bar">
+<!-- 						<h1>Distance</h1> -->
+						<div id="distance_widget" style="background-color: #ffa500"></div>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
@@ -36,10 +56,27 @@
 <script type="text/javascript">
 $(function() { // only when the page has loaded and jQuery is ready
 	// start gridster
+// 	maximumColumns: 4
+// 	widgetMargin: 5
+// 	widgetDimensions: () ->
+// 	maxWidth = @el.width();
+// 	return  {
+// 		width: Math.floor( (maxWidth / @maximumColumns) - (@widgetMargin * 2) )
+// 		height: 100
+//     }
+// 	dimensions = @widgetDimensions()
+// 	@$el.find('.gridster .widgets').gridster({ 
+// 		# The X & Y Margins for each widget
+// 		widget_margins: [@widgetMargin, @widgetMargin]
+// 		# The width of one column
+// 		# The height of one row
+// 		widget_base_dimensions: [dimensions.width, dimensions.height]
+// 	})
+// 	
 	$('.gridster ul').gridster({
-		widget_margins: [5, 5],
-		widget_base_dimensions: [1000, 700],
-		max_cols: 5
+		widget_base_dimensions: [215, 700],
+		max_cols: 5,
+		widget_margins: [2,2]
 	});
 
 	var isopen = false;
@@ -49,18 +86,18 @@ $(function() { // only when the page has loaded and jQuery is ready
 	socket.onopen = function() {
 		console.log("WebSocket opened!");
 		isopen = true;
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
-		if (typeof e.data == "string") {
+		if (typeof e.data === "string") {
 			var data = JSON.parse(e.data);
-			if (data['type'] == 'heartbeat') {
+			if (data['type'] === 'heartbeat') {
 				$("#loader").hide();
 				onHeartbeat(data);
-			} else if (data['type'] == 'action') {
+			} else if (data['type'] === 'action') {
 				onAction(data);
-			} else if (data['type'] == 'message') {
+			} else if (data['type'] === 'message') {
 				console.log('Message received from the server: ' + data['message']);
 				$("#loader_message_holder").text(data['message']);
 			} else {
@@ -74,7 +111,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);
@@ -100,22 +137,50 @@ $(function() { // only when the page has loaded and jQuery is ready
     };
 
     var onHeartbeat = function(data) {
-      	for (key in data) {
-			if (key == 'time') {
+      	for (var key in data) {
+			if (key === 'time') {
 				//document.getElementById("time").innerHTML = data[key];
-			} else if (key == 'pacman_data') {
+			} else if (key === 'pacman_data') {
 				setValue('distance', data[key][3]);
 				setValue('pm1', data[key][0]);
+				setValue('pm10', data[key][2]);
 				setValue('temperature_1', data[key][4]);
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-				
+
+				setProgressBarHeight("rh_widget", data[key][5], 30, 100, '#0000ff');
+				setProgressBarHeight("temperature_widget", data[key][4], 5, 30, '#ff0000');
+				setProgressBarHeight("dust_widget", data[key][2], 0, 50, '#008000');
 				setProgressBarHeight("co2_widget", data[key][6], data[key][7],data[key][8], '#ffff00');
-				if (data[key][6]>=data[key][8]) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
+				setProgressBarHeight("distance_widget", data[key][3], 0, 120, '#f47c3d');
+
+				if (data[key][3] < 30 && data[key][3] > 0) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 45) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/D.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 60) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/E.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 75) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/F.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 90) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/G.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 105) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/A.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else 	if (data[key][3] < 120) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/B.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				} else {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/silence.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}
+
 			}
       	}
     };
@@ -128,7 +193,7 @@ $(function() { // only when the page has loaded and jQuery is ready
     	console.log("WebSocket closed.");
       	socket = null;
       	isopen = false;
-    }
+    };
     // For the camera
 	var mjpeg_img;
 	function reload_img () {
@@ -161,5 +226,4 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 });
   </script>
-</body>
 </html>

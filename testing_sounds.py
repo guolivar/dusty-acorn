@@ -5,9 +5,9 @@ Created on Thu Nov  5 12:35:01 2015
 @author: gustavo
 """
 
-import pygame
-import pygame.midi
 from time import sleep
+
+import pygame.midi
 
 # Parameters that you can change
 instrument = 0
@@ -27,9 +27,9 @@ midiOutput.set_instrument(instrument)
 
 # Play all 128 notes
 for note in range(0, 127):
-  midiOutput.note_on(note, velocity)
-  sleep(.25)
-  midiOutput.note_off(note, velocity)
+    midiOutput.note_on(note, velocity)
+    sleep(.25)
+    midiOutput.note_off(note, velocity)
 
 # close the handler and quit midi
 del midiOutput
