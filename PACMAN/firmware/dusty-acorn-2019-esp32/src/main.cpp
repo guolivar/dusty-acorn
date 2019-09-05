@@ -102,129 +102,63 @@ void readDust(HardwareSerial _dustport){
 int readCO2(){
 
   int co2_value = 0; // Store the CO2 value inside this variable.
-
-  digitalWrite(13, HIGH); // turn on LED
-
-  // On most Arduino platforms this pin is used as an indicator light.
-
   //////////////////////////
-
   /* Begin Write Sequence */
-
   //////////////////////////
-
-  
   const int co2Addr = 0x68;
-  //104
-
-// This is the default address of the CO2 sensor, 7bits shifted left.
-
+  // This is the default address of the CO2 sensor, 7bits shifted left.
   Wire.beginTransmission(co2Addr);
-
   Wire.write(0x22);
-
   Wire.write(0x00);
-
   Wire.write(0x08);
-
   Wire.write(0x2A);
-
-
-  //wire_write([0x22, 0x00, 0x08, 0x2A]);
-
   Wire.endTransmission();
-
   /////////////////////////
-
   /* End Write Sequence. */
-
   /////////////////////////
-
   /*
   Wait 10ms for the sensor to process our command. The sensors's
   primary duties are to accurately measure CO2 values. Waiting 10ms
   ensures the data is properly written to RAM
   */
-
   delay(10);
-
   /////////////////////////
-
   /* Begin Read Sequence */
-
   /////////////////////////
-
   /*
   Since we requested 2 bytes from the sensor we must read in 4 bytes.
   This includes the payload, checksum, and command status byte.
   */
-
   Wire.requestFrom(co2Addr, 4);
-
   byte i = 0;
-
   byte buffer[4] = {0, 0, 0, 0};
-
   /*
   Wire.available() is not necessary. Implementation is obscure but we
   leave it in here for portability and to future proof our code
   */
-
   while (Wire.available()){
-    
     buffer[i] = Wire.read();
     i++;
-
   }
-
   ///////////////////////
-
   /* End Read Sequence */
-
   ///////////////////////
-
   /*
   Using some bitwise manipulation we will shift our buffer
   into an integer for general consumption
   */
-
-  //co2_value = 0;
-
   co2_value |= buffer[1] & 0xFF;
-
   co2_value = co2_value << 8;
-
   co2_value |= buffer[2] & 0xFF;
-
-  //byte sum = 0; //Checksum Byte
-
   byte sum = buffer[0] + buffer[1] + buffer[2]; //Byte addition utilizes overflow
-
   if (sum == buffer[3]){
-
-  // Success!
-
-    digitalWrite(13, LOW);
-
+    // Success!
     return co2_value;
-
   }
-
   else{
-
     // Failure!
-
-    /*
-    Checksum failure can be due to a number of factors,
-    fuzzy electrons, sensor busy, etc.
-    */
-
-    digitalWrite(13, LOW);
-
     return 0;
-
   }
-
 }
 
 
@@ -232,13 +166,13 @@ void setup(){
         iamok = true;
         //Start HWserial for messages
         Serial.begin(9600);
-        Serial.println(F("Starting the setup"));
+        //Serial.println(F("Starting the setup"));
         //Start SoftwareSerial for PMS3003
         dustport.begin(9600);
         dustport.setTimeout(20000);
 
         //Initialise i2c
-        Serial.println(F("I2C begins!"));
+        //Serial.println(F("I2C begins!"));
         Wire.begin(xsda, xscl);
 
 }
@@ -247,14 +181,14 @@ void loop(){
         valid_data = false;
 
         //Read Dust data
-        Serial.println(F("Reading Dust Data"));
+        //Serial.println(F("Reading Dust Data"));
         while ((!valid_data)) {
                 readDust(dustport);
                 valid_data = true;
         }
 
         // Read from SHT31
-        Serial.println(F("Getting SHT30 data"));
+        //Serial.println(F("Getting SHT30 data"));
         t=0;
         rh=0;
         byte _sht = 1;
@@ -264,8 +198,8 @@ void loop(){
                 t = sht30.cTemp;
                 rh = sht30.humidity;
                 _sht = 0;
-                Serial.println(t);
         }
+        // Read from K30
         int co2_value = readCO2();
         //Build line
         Serial.print(PM1);
@@ -280,6 +214,6 @@ void loop(){
         Serial.print(";");
         Serial.print(co2_value);
         Serial.print(";");
-        Serial.println(hcsr04.ToString());
+        Serial.println(String(hcsr04.distanceInMillimeters()));
 
 }
