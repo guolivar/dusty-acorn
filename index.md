@@ -1,6 +1,6 @@
 
 ## What is Dusty-ACorn?
-tl;dr ... Acronym for Dusty Air Corner. Hardware/software project to bring air quality closer to pre-schoolers.
+TL;DR ... Acronym for Dusty Air Corner. Hardware/software project to bring air quality closer to pre-schoolers.
 
 
 ![See it here](dusty-acorn-children.jpg "Children exploring the DustyACorn")
