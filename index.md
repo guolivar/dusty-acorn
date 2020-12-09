@@ -2,6 +2,10 @@
 ## What is Dusty-ACorn?
 tl;dr ... Acronym for Dusty Air Corner. Hardware/software project to bring air quality closer to pre-schoolers.
 
+
+![See it here](dusty-acorn-children.jpg "Children exploring the DustyACorn")
+
+
 Air quality is often portrayed as a difficult subject where only specialists are able to participate in the discussion. However, we all breath the same air and therefore we all have a stake in understanding why the quality of the air changes and what can we do to mitigate adverse changes.
 
 The main objective of this project is to develop an interactive display of air quality data accessible to pre-schoolers. The heart of the system is based on the Particles, Activity and Context Monitoring Autonomous Node ([PACMAN](https://bitbucket.org/guolivar/pacman/wiki/Home)) that connects to a [Raspberry Pi](https://www.raspberrypi.org/) to translate the readings of CO, CO2, Dust, Temperature, Movement and proximity into a colourful display that encourages the children to explore different activities and their impact on the _invisible components_ of the air.
