@@ -8,12 +8,9 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
-		<script src="script_min.js"></script>
 	</head>
-	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img src="{{ static_url('images/snail.png') }}" id="distanceimage" /></div>
-		</center>
+	<body style="background-color: black; margin: 0;">
+		<div id="particles-js" style="width: 768px; height: 768px; min-height: 768px;"></div>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -25,6 +22,17 @@
 <script src="{{ static_url("app.js") }}" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() { // only when the page has loaded and jQuery is ready
+	// start gridster
+	$('.gridster ul').gridster({
+		widget_margins: [10, 10],
+		widget_base_dimensions: [940, 800],
+		max_cols: 2
+	});
+
+	// start particles-js
+	particlesJS.load('particles-js', '{{ static_url("particles.json") }}', function() {
+	  console.log('callback - particles.js config loaded');
+	});
 
 	var isopen = false;
 	var socket = new WebSocket("ws://127.0.0.1:8080/ws");
@@ -33,18 +41,18 @@ $(function() { // only when the page has loaded and jQuery is ready
 	socket.onopen = function() {
 		console.log("WebSocket opened!");
 		isopen = true;
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
-		if (typeof e.data == "string") {
+		if (typeof e.data === "string") {
 			var data = JSON.parse(e.data);
-			if (data['type'] == 'heartbeat') {
+			if (data['type'] === 'heartbeat') {
 				$("#loader").hide();
 				onHeartbeat(data);
-			} else if (data['type'] == 'action') {
+			} else if (data['type'] === 'action') {
 				onAction(data);
-			} else if (data['type'] == 'message') {
+			} else if (data['type'] === 'message') {
 				console.log('Message received from the server: ' + data['message']);
 				$("#loader_message_holder").text(data['message']);
 			} else {
@@ -58,7 +66,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);
@@ -66,65 +74,35 @@ $(function() { // only when the page has loaded and jQuery is ready
 			entry.innerHTML = value;
 		});
     };
-    var setDistanceElement = function(id, value) {
-    	var element = document.getElementById(id);
-    	if (undefined !== element && null !== element) {
-    		var inputLow = 0;
-    		var inputHigh = 120;
 
-    		var outputLow = 0;
-    		var outputHigh = 100;
-
-    		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
-    		var rounded = Number(result).toFixed(2);
-
-
-    		element.setAttribute('style','width: '+rounded+'%; height: '+rounded+'%;');
-    	}
+    var updateParticles = function(amount) {
+    	window.pJSDom[0].pJS.particles.number.value = 10*amount;
+    	window.pJSDom[0].pJS.fn.particlesEmpty();
+    	window.pJSDom[0].pJS.fn.particlesCreate();
+    	//window.pJSDom[0].pJS.fn.particlesRefresh();
     };
 
     var onHeartbeat = function(data) {
-      	for (key in data) {
-			if (key == 'time') {
+      	for (var key in data) {
+			if (key === 'time') {
 				//document.getElementById("time").innerHTML = data[key];
-			} else if (key == 'pacman_data') {
+			} else if (key === 'pacman_data') {
 				setValue('distance', data[key][3]);
 				setValue('pm1', data[key][0]);
 				setValue('temperature_1', data[key][4]);
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-				setDistanceElement('distanceimage',data[key][3]);
-				if (data[key][3] < 30) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/C.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 45) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/D.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 60) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/E.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 75) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/F.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 90) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/G.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 105) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/A.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else 	if (data[key][3] < 120) {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/B.mp3") }}');
-					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
-				} else {
-					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/silence.mp3") }}');
+
+				updateParticles(data[key][2]);
+				if (data[key][1]>=data[key][10]) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
 					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
 				}
-
 			}
       	}
     };
-    
+
     var onAction = function(data) {
     	console.log("Action: " + data);
     };
@@ -134,20 +112,6 @@ $(function() { // only when the page has loaded and jQuery is ready
       	socket = null;
       	isopen = false;
     }
-    // For the camera
-	var mjpeg_img;
-	function reload_img () {
-		mjpeg_img.src = "cam_pic.php?time=" + new Date().getTime();
-	}
-	function error_img () {
-		setTimeout("mjpeg_img.src = 'cam_pic.php?time=' + new Date().getTime();", 100);
-	}
-	function init() {
-		mjpeg_img = document.getElementById("mjpeg_dest");
-		mjpeg_img.onload = reload_img;
-		mjpeg_img.onerror = error_img;
-		reload_img();
-	}
 
 // Handling actions in the UI
 //     $('#my_button').click(function() {
@@ -166,5 +130,4 @@ $(function() { // only when the page has loaded and jQuery is ready
 
 });
   </script>
-</body>
 </html>

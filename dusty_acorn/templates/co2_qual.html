@@ -8,12 +8,11 @@
 		<title>air 1</title>
 		<link rel="stylesheet" href="{{ static_url("jquery.gridster.css") }}" type="text/css"/>
 		<link rel="stylesheet" href="{{ static_url("app.css") }}" type="text/css"/>
-		<script src="script_min.js"></script>
 	</head>
 	<body style="background-color: white; margin: 0;" onload="setTimeout('init();', 100);">
-		<center>
-			<div><img src="{{ static_url('images/RangitotoIsland1.jpg') }}" id="rhimage" height="100%" /></div>
-		</center>
+	<center>
+		<div><img src="{{ static_url('images/co2.png') }}" id="co2_widget" /></div>
+        </center>
 		<audio id="audiosource">
 			<source type="audio/mp3"  />
 			Your browser does not support the audio element.
@@ -39,18 +38,18 @@ $(function() { // only when the page has loaded and jQuery is ready
 	socket.onopen = function() {
 		console.log("WebSocket opened!");
 		isopen = true;
-	}
+	};
 
 	socket.onmessage = function(e) {
 		//console.log(e);
-		if (typeof e.data == "string") {
+		if (typeof e.data === "string") {
 			var data = JSON.parse(e.data);
-			if (data['type'] == 'heartbeat') {
+			if (data['type'] === 'heartbeat') {
 				$("#loader").hide();
 				onHeartbeat(data);
-			} else if (data['type'] == 'action') {
+			} else if (data['type'] === 'action') {
 				onAction(data);
-			} else if (data['type'] == 'message') {
+			} else if (data['type'] === 'message') {
 				console.log('Message received from the server: ' + data['message']);
 				$("#loader_message_holder").text(data['message']);
 			} else {
@@ -64,7 +63,7 @@ $(function() { // only when the page has loaded and jQuery is ready
           	}
           	console.log("Binary message received: " + hex);
         }
-    }
+    };
 
     var setValue = function(className, value) {
     	var entries = document.getElementsByClassName(className);
@@ -72,35 +71,41 @@ $(function() { // only when the page has loaded and jQuery is ready
 			entry.innerHTML = value;
 		});
     };
-var setRHElement = function(id, value) {
+
+    var setCO2Element = function(id, value) {
     	var element = document.getElementById(id);
     	if (undefined !== element && null !== element) {
-    		var inputLow = 0;
-    		var inputHigh = 100;
+    		// TODO: remove duplication; see setTemperatureThermometer
+    		var inputLow = -500;
+    		var inputHigh = 0;
 
     		var outputLow = 0;
-    		var outputHigh = 10;
+    		var outputHigh = 100;
 
     		var result = ((value - inputLow) / (inputHigh - inputLow)) * (outputHigh - outputLow) + outputLow;
     		var rounded = Number(result).toFixed(2);
-    		var opac = 10*(10-rounded);
 
-    		element.setAttribute('style', '-webkit-filter: blur(' + rounded + 'px) opacity(' + opac + '%)');
+
+    		element.setAttribute('style','width: '+rounded+'%; height: '+rounded+'%;');
     	}
     };
+
     var onHeartbeat = function(data) {
-      	for (key in data) {
-			if (key == 'time') {
+      	for (var key in data) {
+			if (key === 'time') {
 				//document.getElementById("time").innerHTML = data[key];
-			} else if (key == 'pacman_data') {
+			} else if (key === 'pacman_data') {
 				setValue('distance', data[key][3]);
 				setValue('pm1', data[key][0]);
 				setValue('temperature_1', data[key][4]);
 				setValue('rh', data[key][5]);
 				setValue('dust', data[key][1]);
 				setValue('co2', data[key][6]);
-
-				setRHElement("rhimage", data[key][5]);
+				setCO2Element("co2_widget", data[key][6]);
+				if (data[key][6]>=data[key][8]) {
+					document.getElementById("audiosource").setAttribute("src", '{{ static_url("sounds/win.mp3") }}');
+					document.getElementById("audiosource").setAttribute("autoplay", "autoplay");
+				}
 			}
       	}
     };
@@ -115,7 +120,21 @@ var setRHElement = function(id, value) {
       	isopen = false;
     }
 
+// Handling actions in the UI
+//     $('#my_button').click(function() {
+//     	var $button = $(this);
+// //    	$button.attr('disabled','disabled');
+//     	if (socket) {
+// 	    	var message = {
+// 	    		'type': "my_button"
+// 	    	};
+// 	    	var payload = JSON.stringify(message);
+// 	    	socket.send(payload);
+// 	    	$button.attr('enabled','');
+// 	    }
+// 	    return false;
+//     });
+
 });
   </script>
-</body>
 </html>
